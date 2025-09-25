@@ -1,340 +1,393 @@
-import React, { useState } from 'react';
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Star TV Mobile Website</title>
+  <!-- Not loading Tailwind or other CSS so classes remain as in the original component -->
+  <style>
+    /* Minimal fallback styles so layout is readable even without Tailwind */
+    :root{--bg:#f8fafc;--fg:#0f172a;--primary:#ef4444;--muted:#f1f5f9;--border:#e6e9ef;--card:#ffffff;--card-fg:#0f172a}
+    html,body{margin:0;padding:0;font-family:Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; background:var(--bg); color:var(--fg)}
+    .min-h-screen{min-height:100vh}
+    .sticky{position:sticky}
+    .top-0{top:0}
+    .z-50{z-index:50}
+    .shadow-md{box-shadow:0 4px 8px rgba(0,0,0,0.06)}
+    .p-4{padding:1rem}
+    .p-6{padding:1.5rem}
+    .p-3{padding:.75rem}
+    .p-2{padding:.5rem}
+    .p-1{padding:.25rem}
+    .mt-8{margin-top:2rem}
+    .mb-4{margin-bottom:1rem}
+    .mb-6{margin-bottom:1.5rem}
+    .mb-2{margin-bottom:.5rem}
+    .space-y-6 > * + *{margin-top:1.5rem}
+    .flex{display:flex}
+    .items-center{align-items:center}
+    .justify-between{justify-content:space-between}
+    .justify-center{justify-content:center}
+    .space-x-2 > * + *{margin-left:.5rem}
+    .space-x-4 > * + *{margin-left:1rem}
+    .space-y-4 > * + *{margin-top:1rem}
+    .rounded-full{border-radius:9999px}
+    .rounded-lg{border-radius:.5rem}
+    .rounded-xl{border-radius:1rem}
+    .rounded{border-radius:.25rem}
+    .bg-primary{background:var(--primary)}
+    .text-primary-foreground{color:#fff}
+    .text-white{color:#fff}
+    .bg-muted{background:var(--muted)}
+    .bg-card{background:var(--card)}
+    .text-muted-foreground{color:#64748b}
+    .border{border:1px solid var(--border)}
+    .border-border{border-color:var(--border)}
+    .grid{display:grid}
+    .grid-cols-2{grid-template-columns:repeat(2,1fr)}
+    .gap-4{gap:1rem}
+    .w-20{width:5rem}
+    .h-24{height:6rem}
+    .w-full{width:100%}
+    .h-48{height:12rem}
+    .h-40{height:10rem}
+    .object-cover{object-fit:cover}
+    .text-xl{font-size:1.125rem}
+    .text-2xl{font-size:1.5rem}
+    .font-bold{font-weight:700}
+    .font-semibold{font-weight:600}
+    .text-sm{font-size:.875rem}
+    .text-lg{font-size:1.125rem}
+    .inline-block{display:inline-block}
+    .px-4{padding-left:1rem;padding-right:1rem}
+    .px-6{padding-left:1.5rem;padding-right:1.5rem}
+    .py-2{padding-top:.5rem;padding-bottom:.5rem}
+    .py-3{padding-top:.75rem;padding-bottom:.75rem}
+    .rounded-full{border-radius:9999px}
+    .shadow-sm{box-shadow:0 1px 3px rgba(0,0,0,0.06)}
+    .shadow-lg{box-shadow:0 10px 20px rgba(0,0,0,0.08)}
+    .text-center{text-align:center}
+    .fixed{position:fixed}
+    .inset-0{top:0;right:0;bottom:0;left:0}
+    .overflow-x-auto{overflow-x:auto}
+    .whitespace-nowrap{white-space:nowrap}
+    .scrollbar-hide{scrollbar-width:none;-ms-overflow-style:none}
+    .text-muted{color:#94a3b8}
+    .bg-green-100{background:#dcfce7}
+    .text-green-800{color:#166534}
+    .rounded-lg{border-radius:.5rem}
+    .relative{position:relative}
+    .absolute{position:absolute}
+    .top-4{top:1rem}
+    .right-4{right:1rem}
+    .text-xs{font-size:.75rem}
+    .hidden{display:none}
+    button{cursor:pointer;border:0;background:none}
+    a{color:inherit;text-decoration:none}
+  </style>
+</head>
+<body>
+  <div class="min-h-screen bg-background text-foreground font-sans">
 
-const StarTVMobileWebsite = () => {
-  const [activeTab, setActiveTab] = useState('home');
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+    <!-- Header -->
+    <header class="bg-primary text-primary-foreground p-4 sticky top-0 z-50 shadow-md">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-2">
+          <div class="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center">
+            <span class="text-white font-bold text-sm">STAR</span>
+          </div>
+          <h1 class="text-xl font-bold">Star TV</h1>
+        </div>
+        
+        <button id="menuToggle" class="p-2 rounded-md hover:bg-primary-foreground/10">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
+    </header>
 
-  // Sample shows data
-  const featuredShows = [
-    {
-      title: "Yargı",
-      description: "Dramatik bir adalet mücadelesi",
-      category: "Drama"
-    },
-    {
-      title: "Kızılcık Şerbeti",
-      description: "Aşk ve aile ilişkileri",
-      category: "Romantik"
-    },
-    {
-      title: "Sakla Beni",
-      description: "Gerilim dolu bir hikaye",
-      category: "Gerilim"
-    }
-  ];
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="fixed inset-0 bg-background z-50 p-4 hidden">
+      <div class="flex justify-between items-center mb-8">
+        <h2 class="text-xl font-bold">Menü</h2>
+        <button id="menuClose" class="p-2 rounded-md hover:bg-muted">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+      
+      <nav class="space-y-4">
+        <button data-tab="home" class="w-full text-left p-3 rounded-lg hover:bg-muted">Ana Sayfa</button>
+        <button data-tab="shows" class="w-full text-left p-3 rounded-lg hover:bg-muted">Diziler</button>
+        <button data-tab="live" class="w-full text-left p-3 rounded-lg hover:bg-muted">Canlı Yayın</button>
+        <button data-tab="news" class="w-full text-left p-3 rounded-lg hover:bg-muted">Haberler</button>
+      </nav>
+    </div>
 
-  const liveChannels = [
-    {
-      name: "Star TV",
-      currentShow: "Yargı",
-      viewers: "2.4M"
-    },
-    {
-      name: "Star 2",
-      currentShow: "Tekrarlar",
-      viewers: "890K"
-    }
-  ];
+    <!-- Navigation Tabs -->
+    <div class="bg-muted/50 border-b border-border">
+      <div class="flex overflow-x-auto scrollbar-hide">
+        <button data-tabnav="home" class="px-4 py-3 whitespace-nowrap bg-primary text-primary-foreground">Ana Sayfa</button>
+        <button data-tabnav="shows" class="px-4 py-3 whitespace-nowrap">Diziler</button>
+        <button data-tabnav="live" class="px-4 py-3 whitespace-nowrap">Canlı</button>
+        <button data-tabnav="news" class="px-4 py-3 whitespace-nowrap">Haberler</button>
+      </div>
+    </div>
 
-  return (
-    <div className="min-h-screen bg-background text-foreground font-sans">
-      {/* Header */}
-      <header className="bg-primary text-primary-foreground p-4 sticky top-0 z-50 shadow-md">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center">
-              <span className="text-white font-bold text-sm">STAR</span>
+    <!-- Main Content -->
+    <main class="p-4">
+      <!-- Home Tab -->
+      <section id="tab-home" class="tab-content">
+        <div class="space-y-6">
+          <div class="relative rounded-xl overflow-hidden bg-gradient-to-r from-primary to-primary/80 text-primary-foreground p-6">
+            <h2 class="text-2xl font-bold mb-2">Yargı</h2>
+            <p class="text-primary-foreground/90 mb-4">Yeni bölüm ile ekranlarda!</p>
+            <button class="bg-white text-primary px-6 py-2 rounded-full font-semibold hover:bg-white/90">İzle</button>
+          </div>
+
+          <!-- Featured Shows -->
+          <div>
+            <h3 class="text-xl font-bold mb-4">Popüler Diziler</h3>
+            <div class="grid gap-4">
+              <div class="bg-card text-card-foreground rounded-lg p-4 shadow-sm border border-border">
+                <div class="flex space-x-4">
+                  <div class="w-20 h-24 bg-muted rounded-lg overflow-hidden">
+                    <img src="https://placeholder-image-service.onrender.com/image/80x96?prompt=Turkish%20TV%20show%20poster%20with%20dramatic%20actors&id=star-tv-show-1&customer_id=cus_S13tU8Mo88w9Zk" alt="Poster for Yargı showing dramatic Turkish television actors" class="w-full h-full object-cover">
+                  </div>
+                  <div class="flex-1">
+                    <h4 class="font-semibold text-lg">Yargı</h4>
+                    <p class="text-muted-foreground text-sm mb-2">Dramatik bir adalet mücadelesi</p>
+                    <span class="inline-block bg-primary/10 text-primary text-xs px-2 py-1 rounded">Drama</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-card text-card-foreground rounded-lg p-4 shadow-sm border border-border">
+                <div class="flex space-x-4">
+                  <div class="w-20 h-24 bg-muted rounded-lg overflow-hidden">
+                    <img src="https://placeholder-image-service.onrender.com/image/80x96?prompt=Turkish%20TV%20show%20poster%20with%20dramatic%20actors&id=star-tv-show-2&customer_id=cus_S13tU8Mo88w9Zk" alt="Poster for Kızılcık Şerbeti" class="w-full h-full object-cover">
+                  </div>
+                  <div class="flex-1">
+                    <h4 class="font-semibold text-lg">Kızılcık Şerbeti</h4>
+                    <p class="text-muted-foreground text-sm mb-2">Aşk ve aile ilişkileri</p>
+                    <span class="inline-block bg-primary/10 text-primary text-xs px-2 py-1 rounded">Romantik</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-card text-card-foreground rounded-lg p-4 shadow-sm border border-border">
+                <div class="flex space-x-4">
+                  <div class="w-20 h-24 bg-muted rounded-lg overflow-hidden">
+                    <img src="https://placeholder-image-service.onrender.com/image/80x96?prompt=Turkish%20TV%20show%20poster%20with%20dramatic%20actors&id=star-tv-show-3&customer_id=cus_S13tU8Mo88w9Zk" alt="Poster for Sakla Beni" class="w-full h-full object-cover">
+                  </div>
+                  <div class="flex-1">
+                    <h4 class="font-semibold text-lg">Sakla Beni</h4>
+                    <p class="text-muted-foreground text-sm mb-2">Gerilim dolu bir hikaye</p>
+                    <span class="inline-block bg-primary/10 text-primary text-xs px-2 py-1 rounded">Gerilim</span>
+                  </div>
+                </div>
+              </div>
+
             </div>
-            <h1 className="text-xl font-bold">Star TV</h1>
           </div>
-          
-          <button 
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="p-2 rounded-md hover:bg-primary-foreground/10"
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
-        </div>
-      </header>
 
-      {/* Mobile Menu */}
-      {isMenuOpen && (
-        <div className="fixed inset-0 bg-background z-50 p-4">
-          <div className="flex justify-between items-center mb-8">
-            <h2 className="text-xl font-bold">Menü</h2>
-            <button 
-              onClick={() => setIsMenuOpen(false)}
-              className="p-2 rounded-md hover:bg-muted"
-            >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
+          <!-- Live Channels -->
+          <div>
+            <h3 class="text-xl font-bold mb-4">Canlı Yayınlar</h3>
+            <div class="space-y-3">
+              <div class="bg-card text-card-foreground rounded-lg p-4 shadow-sm border border-border">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <h4 class="font-semibold">Star TV</h4>
+                    <p class="text-muted-foreground text-sm">Yargı</p>
+                  </div>
+                  <div class="text-right">
+                    <span class="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded">2.4M izleyici</span>
+                    <button class="mt-2 bg-primary text-primary-foreground px-4 py-1 rounded text-sm hover:bg-primary/90">İzle</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-card text-card-foreground rounded-lg p-4 shadow-sm border border-border">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <h4 class="font-semibold">Star 2</h4>
+                    <p class="text-muted-foreground text-sm">Tekrarlar</p>
+                  </div>
+                  <div class="text-right">
+                    <span class="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded">890K izleyici</span>
+                    <button class="mt-2 bg-primary text-primary-foreground px-4 py-1 rounded text-sm hover:bg-primary/90">İzle</button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
           </div>
-          
-          <nav className="space-y-4">
-            <button 
-              onClick={() => { setActiveTab('home'); setIsMenuOpen(false); }}
-              className="w-full text-left p-3 rounded-lg hover:bg-muted"
-            >
-              Ana Sayfa
-            </button>
-            <button 
-              onClick={() => { setActiveTab('shows'); setIsMenuOpen(false); }}
-              className="w-full text-left p-3 rounded-lg hover:bg-muted"
-            >
-              Diziler
-            </button>
-            <button 
-              onClick={() => { setActiveTab('live'); setIsMenuOpen(false); }}
-              className="w-full text-left p-3 rounded-lg hover:bg-muted"
-            >
-              Canlı Yayın
-            </button>
-            <button 
-              onClick={() => { setActiveTab('news'); setIsMenuOpen(false); }}
-              className="w-full text-left p-3 rounded-lg hover:bg-muted"
-            >
-              Haberler
-            </button>
-          </nav>
         </div>
-      )}
+      </section>
 
-      {/* Navigation Tabs */}
-      <div className="bg-muted/50 border-b border-border">
-        <div className="flex overflow-x-auto scrollbar-hide">
-          <button 
-            onClick={() => setActiveTab('home')}
-            className={`px-4 py-3 whitespace-nowrap ${activeTab === 'home' ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'}`}
-          >
-            Ana Sayfa
-          </button>
-          <button 
-            onClick={() => setActiveTab('shows')}
-            className={`px-4 py-3 whitespace-nowrap ${activeTab === 'shows' ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'}`}
-          >
-            Diziler
-          </button>
-          <button 
-            onClick={() => setActiveTab('live')}
-            className={`px-4 py-3 whitespace-nowrap ${activeTab === 'live' ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'}`}
-          >
-            Canlı
-          </button>
-          <button 
-            onClick={() => setActiveTab('news')}
-            className={`px-4 py-3 whitespace-nowrap ${activeTab === 'news' ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'}`}
-          >
-            Haberler
-          </button>
+      <!-- Shows Tab -->
+      <section id="tab-shows" class="tab-content hidden">
+        <h2 class="text-2xl font-bold mb-6">Tüm Diziler</h2>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="bg-card rounded-lg overflow-hidden shadow-sm">
+            <img src="https://placeholder-image-service.onrender.com/image/160x240?prompt=Turkish%20drama%20series%20Yarg%C4%B1%20with%20courtroom%20scene&id=star-yargi-1&customer_id=cus_S13tU8Mo88w9Zk" alt="Yargı Turkish drama series poster showing intense courtroom scene with lawyers" class="w-full h-48 object-cover">
+            <div class="p-3">
+              <h3 class="font-semibold">Yargı</h3>
+              <p class="text-muted-foreground text-sm">Drama</p>
+            </div>
+          </div>
+
+          <div class="bg-card rounded-lg overflow-hidden shadow-sm">
+            <img src="https://placeholder-image-service.onrender.com/image/160x240?prompt=Romantic%20Turkish%20series%20K%C4%B1z%C4%B1lc%C4%B1k%20%C5%9Eerbeti&id=star-kizilcik-1&customer_id=cus_S13tU8Mo88w9Zk" alt="Kızılcık Şerbeti romantic Turkish series with couple in emotional scene" class="w-full h-48 object-cover">
+            <div class="p-3">
+              <h3 class="font-semibold">Kızılcık Şerbeti</h3>
+              <p class="text-muted-foreground text-sm">Romantik</p>
+            </div>
+          </div>
+
+          <div class="bg-card rounded-lg overflow-hidden shadow-sm">
+            <img src="https://placeholder-image-service.onrender.com/image/160x240?prompt=Turkish%20thriller%20series%20Sakla%20Beni&id=star-sakla-1&customer_id=cus_S13tU8Mo88w9Zk" alt="Sakla Beni thriller series with mysterious atmosphere and suspenseful characters" class="w-full h-48 object-cover">
+            <div class="p-3">
+              <h3 class="font-semibold">Sakla Beni</h3>
+              <p class="text-muted-foreground text-sm">Gerilim</p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Live Tab -->
+      <section id="tab-live" class="tab-content hidden">
+        <h2 class="text-2xl font-bold mb-6">Canlı Yayın</h2>
+        <div class="bg-card rounded-xl overflow-hidden shadow-lg mb-6">
+          <div class="relative">
+            <img src="https://placeholder-image-service.onrender.com/image/320x180?prompt=Live%20TV%20broadcast%20screen%20with%20Star%20TV%20logo&id=star-live-1&customer_id=cus_S13tU8Mo88w9Zk" alt="Live TV broadcast screen showing Star TV channel with current program" class="w-full h-48 object-cover">
+            <div class="absolute top-4 right-4 bg-red-600 text-white px-2 py-1 rounded text-sm">CANLI</div>
+          </div>
+          <div class="p-4">
+            <h3 class="font-bold text-lg mb-2">Star TV Canlı Yayın</h3>
+            <p class="text-muted-foreground mb-4">Şu an oynuyor: Yargı</p>
+            <button class="w-full bg-primary text-primary-foreground py-3 rounded-lg font-semibold hover:bg-primary/90">İzlemeye Başla</button>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <h3 class="text-xl font-bold">Yayın Akışı</h3>
+          <div class="bg-muted/50 rounded-lg p-4">
+            <div class="flex justify-between items-center py-2 border-b border-border">
+              <span class="font-semibold">19:00</span>
+              <span>Haberler</span>
+            </div>
+            <div class="flex justify-between items-center py-2 border-b border-border">
+              <span class="font-semibold">20:00</span>
+              <span>Yargı</span>
+            </div>
+            <div class="flex justify-between items-center py-2">
+              <span class="font-semibold">22:00</span>
+              <span>Gece Haberleri</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- News Tab -->
+      <section id="tab-news" class="tab-content hidden">
+        <h2 class="text-2xl font-bold mb-6">Haberler</h2>
+        <div class="space-y-4">
+          <div class="bg-card rounded-lg overflow-hidden shadow-sm">
+            <img src="https://placeholder-image-service.onrender.com/image/320x180?prompt=Breaking%20news%20headline%20with%20Turkish%20news%20banner&id=star-news-1&customer_id=cus_S13tU8Mo88w9Zk" alt="Breaking news headline with dramatic Turkish news banner and urgent typography" class="w-full h-40 object-cover">
+            <div class="p-4">
+              <h3 class="font-bold text-lg mb-2">Gündemdeki Önemli Gelişmeler</h3>
+              <p class="text-muted-foreground mb-3">Son dakika haberleri ve analizler</p>
+              <span class="text-xs text-muted-foreground">2 saat önce</span>
+            </div>
+          </div>
+
+          <div class="bg-card rounded-lg p-4 shadow-sm">
+            <h3 class="font-bold text-lg mb-2">Dizi Haberleri</h3>
+            <p class="text-muted-foreground mb-3">Yargı'nın yeni sezon tarihi belli oldu</p>
+            <span class="text-xs text-muted-foreground">1 gün önce</span>
+          </div>
+
+          <div class="bg-card rounded-lg p-4 shadow-sm">
+            <h3 class="font-bold text-lg mb-2">Magazin</h3>
+            <p class="text-muted-foreground mb-3">Ünlü oyuncuların kamera arkası görüntüleri</p>
+            <span class="text-xs text-muted-foreground">3 saat önce</span>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-muted border-t border-border p-4 mt-8">
+      <div class="text-center text-muted-foreground text-sm">
+        <p>© 2024 Star TV. Tüm hakları saklıdır.</p>
+        <div class="flex justify-center space-x-4 mt-2">
+          <a href="#" class="hover:text-primary">Gizlilik</a>
+          <a href="#" class="hover:text-primary">Kullanım Şartları</a>
+          <a href="#" class="hover:text-primary">Yardım</a>
         </div>
       </div>
+    </footer>
 
-      {/* Main Content */}
-      <main className="p-4">
-        {/* Hero Section */}
-        {activeTab === 'home' && (
-          <div className="space-y-6">
-            <div className="relative rounded-xl overflow-hidden bg-gradient-to-r from-primary to-primary/80 text-primary-foreground p-6">
-              <h2 className="text-2xl font-bold mb-2">Yargı</h2>
-              <p className="text-primary-foreground/90 mb-4">Yeni bölüm ile ekranlarda!</p>
-              <button className="bg-white text-primary px-6 py-2 rounded-full font-semibold hover:bg-white/90">
-                İzle
-              </button>
-            </div>
+  </div>
 
-            {/* Featured Shows */}
-            <div>
-              <h3 className="text-xl font-bold mb-4">Popüler Diziler</h3>
-              <div className="grid gap-4">
-                {featuredShows.map((show, index) => (
-                  <div key={index} className="bg-card text-card-foreground rounded-lg p-4 shadow-sm border border-border">
-                    <div className="flex space-x-4">
-                      <div className="w-20 h-24 bg-muted rounded-lg overflow-hidden">
-                        <img 
-                          src="https://placeholder-image-service.onrender.com/image/80x96?prompt=Turkish%20TV%20show%20poster%20with%20dramatic%20actors&id=star-tv-show-1&customer_id=cus_S13tU8Mo88w9Zk" 
-                          alt={`Poster for ${show.title} showing dramatic Turkish television actors`}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <div className="flex-1">
-                        <h4 className="font-semibold text-lg">{show.title}</h4>
-                        <p className="text-muted-foreground text-sm mb-2">{show.description}</p>
-                        <span className="inline-block bg-primary/10 text-primary text-xs px-2 py-1 rounded">
-                          {show.category}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+  <script>
+    // Vanilla JS to mimic React component interactivity (menu toggle + tab switching)
+    (function(){
+      const menuToggle = document.getElementById('menuToggle');
+      const mobileMenu = document.getElementById('mobileMenu');
+      const menuClose = document.getElementById('menuClose');
+      const tabButtons = document.querySelectorAll('[data-tabnav]');
+      const mobileTabButtons = document.querySelectorAll('#mobileMenu [data-tab]');
+      const tabs = document.querySelectorAll('.tab-content');
 
-            {/* Live Channels */}
-            <div>
-              <h3 className="text-xl font-bold mb-4">Canlı Yayınlar</h3>
-              <div className="space-y-3">
-                {liveChannels.map((channel, index) => (
-                  <div key={index} className="bg-card text-card-foreground rounded-lg p-4 shadow-sm border border-border">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <h4 className="font-semibold">{channel.name}</h4>
-                        <p className="text-muted-foreground text-sm">{channel.currentShow}</p>
-                      </div>
-                      <div className="text-right">
-                        <span className="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded">
-                          {channel.viewers} izleyici
-                        </span>
-                        <button className="mt-2 bg-primary text-primary-foreground px-4 py-1 rounded text-sm hover:bg-primary/90">
-                          İzle
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
+      function hideAllTabs(){
+        tabs.forEach(t => t.classList.add('hidden'));
+      }
+      function setActiveTab(name){
+        hideAllTabs();
+        const el = document.getElementById('tab-' + name);
+        if(el) el.classList.remove('hidden');
+        // update nav active styles
+        tabButtons.forEach(btn => {
+          if(btn.getAttribute('data-tabnav') === name){
+            btn.classList.add('bg-primary','text-primary-foreground');
+          } else {
+            btn.classList.remove('bg-primary','text-primary-foreground');
+          }
+        });
+      }
 
-        {/* Shows Tab */}
-        {activeTab === 'shows' && (
-          <div>
-            <h2 className="text-2xl font-bold mb-6">Tüm Diziler</h2>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="bg-card rounded-lg overflow-hidden shadow-sm">
-                <img 
-                  src="https://placeholder-image-service.onrender.com/image/160x240?prompt=Turkish%20drama%20series%20Yarg%C4%B1%20with%20courtroom%20scene&id=star-yargi-1&customer_id=cus_S13tU8Mo88w9Zk" 
-                  alt="Yargı Turkish drama series poster showing intense courtroom scene with lawyers"
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-3">
-                  <h3 className="font-semibold">Yargı</h3>
-                  <p className="text-muted-foreground text-sm">Drama</p>
-                </div>
-              </div>
-              
-              <div className="bg-card rounded-lg overflow-hidden shadow-sm">
-                <img 
-                  src="https://placeholder-image-service.onrender.com/image/160x240?prompt=Romantic%20Turkish%20series%20K%C4%B1z%C4%B1lc%C4%B1k%20%C5%9Eerbeti&id=star-kizilcik-1&customer_id=cus_S13tU8Mo88w9Zk" 
-                  alt="Kızılcık Şerbeti romantic Turkish series with couple in emotional scene"
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-3">
-                  <h3 className="font-semibold">Kızılcık Şerbeti</h3>
-                  <p className="text-muted-foreground text-sm">Romantik</p>
-                </div>
-              </div>
-              
-              <div className="bg-card rounded-lg overflow-hidden shadow-sm">
-                <img 
-                  src="https://placeholder-image-service.onrender.com/image/160x240?prompt=Turkish%20thriller%20series%20Sakla%20Beni&id=star-sakla-1&customer_id=cus_S13tU8Mo88w9Zk" 
-                  alt="Sakla Beni thriller series with mysterious atmosphere and suspenseful characters"
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-3">
-                  <h3 className="font-semibold">Sakla Beni</h3>
-                  <p className="text-muted-foreground text-sm">Gerilim</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
+      // initial tab
+      setActiveTab('home');
 
-        {/* Live Tab */}
-        {activeTab === 'live' && (
-          <div>
-            <h2 className="text-2xl font-bold mb-6">Canlı Yayın</h2>
-            <div className="bg-card rounded-xl overflow-hidden shadow-lg mb-6">
-              <div className="relative">
-                <img 
-                  src="https://placeholder-image-service.onrender.com/image/320x180?prompt=Live%20TV%20broadcast%20screen%20with%20Star%20TV%20logo&id=star-live-1&customer_id=cus_S13tU8Mo88w9Zk" 
-                  alt="Live TV broadcast screen showing Star TV channel with current program"
-                  className="w-full h-48 object-cover"
-                />
-                <div className="absolute top-4 right-4 bg-red-600 text-white px-2 py-1 rounded text-sm">
-                  CANLI
-                </div>
-              </div>
-              <div className="p-4">
-                <h3 className="font-bold text-lg mb-2">Star TV Canlı Yayın</h3>
-                <p className="text-muted-foreground mb-4">Şu an oynuyor: Yargı</p>
-                <button className="w-full bg-primary text-primary-foreground py-3 rounded-lg font-semibold hover:bg-primary/90">
-                  İzlemeye Başla
-                </button>
-              </div>
-            </div>
+      menuToggle.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+      });
+      menuClose.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+      });
 
-            <div className="space-y-4">
-              <h3 className="text-xl font-bold">Yayın Akışı</h3>
-              <div className="bg-muted/50 rounded-lg p-4">
-                <div className="flex justify-between items-center py-2 border-b border-border">
-                  <span className="font-semibold">19:00</span>
-                  <span>Haberler</span>
-                </div>
-                <div className="flex justify-between items-center py-2 border-b border-border">
-                  <span className="font-semibold">20:00</span>
-                  <span>Yargı</span>
-                </div>
-                <div className="flex justify-between items-center py-2">
-                  <span className="font-semibold">22:00</span>
-                  <span>Gece Haberleri</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
+      tabButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const name = btn.getAttribute('data-tabnav');
+          setActiveTab(name);
+        });
+      });
 
-        {/* News Tab */}
-        {activeTab === 'news' && (
-          <div>
-            <h2 className="text-2xl font-bold mb-6">Haberler</h2>
-            <div className="space-y-4">
-              <div className="bg-card rounded-lg overflow-hidden shadow-sm">
-                <img 
-                  src="https://placeholder-image-service.onrender.com/image/320x180?prompt=Breaking%20news%20headline%20with%20Turkish%20news%20banner&id=star-news-1&customer_id=cus_S13tU8Mo88w9Zk" 
-                  alt="Breaking news headline with dramatic Turkish news banner and urgent typography"
-                  className="w-full h-40 object-cover"
-                />
-                <div className="p-4">
-                  <h3 className="font-bold text-lg mb-2">Gündemdeki Önemli Gelişmeler</h3>
-                  <p className="text-muted-foreground mb-3">Son dakika haberleri ve analizler</p>
-                  <span className="text-xs text-muted-foreground">2 saat önce</span>
-                </div>
-              </div>
-
-              <div className="bg-card rounded-lg p-4 shadow-sm">
-                <h3 className="font-bold text-lg mb-2">Dizi Haberleri</h3>
-                <p className="text-muted-foreground mb-3">Yargı'nın yeni sezon tarihi belli oldu</p>
-                <span className="text-xs text-muted-foreground">1 gün önce</span>
-              </div>
-
-              <div className="bg-card rounded-lg p-4 shadow-sm">
-                <h3 className="font-bold text-lg mb-2">Magazin</h3>
-                <p className="text-muted-foreground mb-3">Ünlü oyuncuların kamera arkası görüntüleri</p>
-                <span className="text-xs text-muted-foreground">3 saat önce</span>
-              </div>
-            </div>
-          </div>
-        )}
-      </main>
-
-      {/* Footer */}
-      <footer className="bg-muted border-t border-border p-4 mt-8">
-        <div className="text-center text-muted-foreground text-sm">
-          <p>© 2024 Star TV. Tüm hakları saklıdır.</p>
-          <div className="flex justify-center space-x-4 mt-2">
-            <a href="#" className="hover:text-primary">Gizlilik</a>
-            <a href="#" className="hover:text-primary">Kullanım Şartları</a>
-            <a href="#" className="hover:text-primary">Yardım</a>
-          </div>
-        </div>
-      </footer>
-    </div>
-  );
-};
-
-export default StarTVMobileWebsite;
+      mobileTabButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const name = btn.getAttribute('data-tab');
+          setActiveTab(name);
+          mobileMenu.classList.add('hidden');
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
