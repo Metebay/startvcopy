@@ -3,17 +3,19 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Star TV Mobile Website</title>
+  <title>Star TV Mobil Site</title>
+  <!-- Google Fonts: Star TV'nin sitesinde kullanılan font ailesine benzer şekilde Roboto'yu ekliyoruz (gerçek sitede Proxima Nova veya benzeri custom fontlar olabilir, ancak web-safe olarak Roboto kullanıyoruz) -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
   <!-- Not loading Tailwind or other CSS so classes remain as in the original component -->
   <style>
     /* Minimal fallback styles so layout is readable even without Tailwind */
-    :root{--bg:#f8fafc;--fg:#0f172a;--primary:#ef4444;--muted:#f1f5f9;--border:#e6e9ef;--card:#ffffff;--card-fg:#0f172a}
-    html,body{margin:0;padding:0;font-family:Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; background:var(--bg); color:var(--fg)}
+    :root{--bg:#ffffff;--fg:#1a1a1a;--primary:#d32f2f;--secondary:#f44336;--muted:#f5f5f5;--border:#e0e0e0;--card:#ffffff;--card-fg:#1a1a1a}
+    html,body{margin:0;padding:0;font-family:'Roboto', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif; background:var(--bg); color:var(--fg)}
     .min-h-screen{min-height:100vh}
     .sticky{position:sticky}
     .top-0{top:0}
     .z-50{z-index:50}
-    .shadow-md{box-shadow:0 4px 8px rgba(0,0,0,0.06)}
+    .shadow-md{box-shadow:0 2px 10px rgba(0,0,0,0.1)}
     .p-4{padding:1rem}
     .p-6{padding:1.5rem}
     .p-3{padding:.75rem}
@@ -40,7 +42,7 @@
     .text-white{color:#fff}
     .bg-muted{background:var(--muted)}
     .bg-card{background:var(--card)}
-    .text-muted-foreground{color:#64748b}
+    .text-muted-foreground{color:#757575}
     .border{border:1px solid var(--border)}
     .border-border{border-color:var(--border)}
     .grid{display:grid}
@@ -52,29 +54,29 @@
     .h-48{height:12rem}
     .h-40{height:10rem}
     .object-cover{object-fit:cover}
-    .text-xl{font-size:1.125rem}
-    .text-2xl{font-size:1.5rem}
+    .text-xl{font-size:1.125rem; font-weight:500}
+    .text-2xl{font-size:1.5rem; font-weight:700}
     .font-bold{font-weight:700}
-    .font-semibold{font-weight:600}
+    .font-semibold{font-weight:500}
     .text-sm{font-size:.875rem}
-    .text-lg{font-size:1.125rem}
+    .text-lg{font-size:1.125rem; font-weight:500}
     .inline-block{display:inline-block}
     .px-4{padding-left:1rem;padding-right:1rem}
     .px-6{padding-left:1.5rem;padding-right:1.5rem}
     .py-2{padding-top:.5rem;padding-bottom:.5rem}
     .py-3{padding-top:.75rem;padding-bottom:.75rem}
     .rounded-full{border-radius:9999px}
-    .shadow-sm{box-shadow:0 1px 3px rgba(0,0,0,0.06)}
-    .shadow-lg{box-shadow:0 10px 20px rgba(0,0,0,0.08)}
+    .shadow-sm{box-shadow:0 1px 3px rgba(0,0,0,0.1)}
+    .shadow-lg{box-shadow:0 4px 20px rgba(0,0,0,0.12)}
     .text-center{text-align:center}
     .fixed{position:fixed}
     .inset-0{top:0;right:0;bottom:0;left:0}
     .overflow-x-auto{overflow-x:auto}
     .whitespace-nowrap{white-space:nowrap}
     .scrollbar-hide{scrollbar-width:none;-ms-overflow-style:none}
-    .text-muted{color:#94a3b8}
-    .bg-green-100{background:#dcfce7}
-    .text-green-800{color:#166534}
+    .text-muted{color:#9e9e9e}
+    .bg-green-100{background:#e8f5e8}
+    .text-green-800{color:#2e7d32}
     .rounded-lg{border-radius:.5rem}
     .relative{position:relative}
     .absolute{position:absolute}
@@ -82,24 +84,29 @@
     .right-4{right:1rem}
     .text-xs{font-size:.75rem}
     .hidden{display:none}
-    button{cursor:pointer;border:0;background:none}
-    a{color:inherit;text-decoration:none}
+    button{cursor:pointer;border:0;background:none; font-family:'Roboto', sans-serif}
+    a{color:inherit;text-decoration:none; font-family:'Roboto', sans-serif}
+    /* Star TV sitesine benzerlik için ek stiller: Daha temiz kenarlar, kırmızı tonlar ve hafif gölgeler */
+    .bg-gradient-to-r{background:linear-gradient(to right, var(--primary), var(--secondary));}
+    .header-logo {font-weight:700; color:#fff; font-size:1.2rem;}
+    .nav-active {background:var(--primary) !important; color:#fff !important; border-bottom:2px solid #fff;}
+    .card-hover:hover {box-shadow:0 4px 12px rgba(211,47,47,0.15); transform:translateY(-2px); transition: all 0.2s ease;}
   </style>
 </head>
 <body>
   <div class="min-h-screen bg-background text-foreground font-sans">
 
-    <!-- Header -->
+    <!-- Header: Star TV sitesine benzer şekilde logo ve menü -->
     <header class="bg-primary text-primary-foreground p-4 sticky top-0 z-50 shadow-md">
       <div class="flex items-center justify-between">
         <div class="flex items-center space-x-2">
-          <div class="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center">
-            <span class="text-white font-bold text-sm">STAR</span>
+          <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm">
+            <span class="text-primary font-bold text-sm">STAR</span>
           </div>
-          <h1 class="text-xl font-bold">Star TV</h1>
+          <h1 class="header-logo">Star TV</h1>
         </div>
         
-        <button id="menuToggle" class="p-2 rounded-md hover:bg-primary-foreground/10">
+        <button id="menuToggle" class="p-2 rounded-md hover:bg-primary-foreground/20">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
           </svg>
@@ -107,7 +114,7 @@
       </div>
     </header>
 
-    <!-- Mobile Menu -->
+    <!-- Mobile Menu: Star TV menüsüne benzer basitlik -->
     <div id="mobileMenu" class="fixed inset-0 bg-background z-50 p-4 hidden">
       <div class="flex justify-between items-center mb-8">
         <h2 class="text-xl font-bold">Menü</h2>
@@ -119,73 +126,73 @@
       </div>
       
       <nav class="space-y-4">
-        <button data-tab="home" class="w-full text-left p-3 rounded-lg hover:bg-muted">Ana Sayfa</button>
-        <button data-tab="shows" class="w-full text-left p-3 rounded-lg hover:bg-muted">Diziler</button>
-        <button data-tab="live" class="w-full text-left p-3 rounded-lg hover:bg-muted">Canlı Yayın</button>
-        <button data-tab="news" class="w-full text-left p-3 rounded-lg hover:bg-muted">Haberler</button>
+        <button data-tab="home" class="w-full text-left p-3 rounded-lg hover:bg-muted font-semibold">Ana Sayfa</button>
+        <button data-tab="shows" class="w-full text-left p-3 rounded-lg hover:bg-muted font-semibold">Diziler</button>
+        <button data-tab="live" class="w-full text-left p-3 rounded-lg hover:bg-muted font-semibold">Canlı Yayın</button>
+        <button data-tab="news" class="w-full text-left p-3 rounded-lg hover:bg-muted font-semibold">Haberler</button>
       </nav>
     </div>
 
-    <!-- Navigation Tabs -->
-    <div class="bg-muted/50 border-b border-border">
+    <!-- Navigation Tabs: Star TV'nin alt navigasyonuna benzer, aktif tab vurgusu -->
+    <div class="bg-muted border-b border-border">
       <div class="flex overflow-x-auto scrollbar-hide">
-        <button data-tabnav="home" class="px-4 py-3 whitespace-nowrap bg-primary text-primary-foreground">Ana Sayfa</button>
-        <button data-tabnav="shows" class="px-4 py-3 whitespace-nowrap">Diziler</button>
-        <button data-tabnav="live" class="px-4 py-3 whitespace-nowrap">Canlı</button>
-        <button data-tabnav="news" class="px-4 py-3 whitespace-nowrap">Haberler</button>
+        <button data-tabnav="home" class="px-4 py-3 whitespace-nowrap nav-active font-semibold">Ana Sayfa</button>
+        <button data-tabnav="shows" class="px-4 py-3 whitespace-nowrap font-medium">Diziler</button>
+        <button data-tabnav="live" class="px-4 py-3 whitespace-nowrap font-medium">Canlı</button>
+        <button data-tabnav="news" class="px-4 py-3 whitespace-nowrap font-medium">Haberler</button>
       </div>
     </div>
 
-    <!-- Main Content -->
+    <!-- Main Content: Star TV sitesine benzer içerik yapısı, daha temiz kartlar -->
     <main class="p-4">
       <!-- Home Tab -->
       <section id="tab-home" class="tab-content">
         <div class="space-y-6">
-          <div class="relative rounded-xl overflow-hidden bg-gradient-to-r from-primary to-primary/80 text-primary-foreground p-6">
+          <div class="relative rounded-xl overflow-hidden bg-gradient-to-r text-primary-foreground p-6 card-hover">
             <h2 class="text-2xl font-bold mb-2">Yargı</h2>
-            <p class="text-primary-foreground/90 mb-4">Yeni bölüm ile ekranlarda!</p>
-            <button class="bg-white text-primary px-6 py-2 rounded-full font-semibold hover:bg-white/90">İzle</button>
+            <p class="text-primary-foreground/90 mb-4 text-sm">Yeni bölüm ile ekranlarda! Heyecan dorukta.</p>
+            <button class="bg-white text-primary px-6 py-2 rounded-full font-semibold hover:bg-white/90 shadow-sm">İzle Şimdi</button>
           </div>
 
-          <!-- Featured Shows -->
+          <!-- Featured Shows: Star TV popüler diziler bölümüne benzer -->
           <div>
             <h3 class="text-xl font-bold mb-4">Popüler Diziler</h3>
             <div class="grid gap-4">
-              <div class="bg-card text-card-foreground rounded-lg p-4 shadow-sm border border-border">
+              <div class="bg-card text-card-foreground rounded-lg p-4 shadow-sm border border-border card-hover">
                 <div class="flex space-x-4">
                   <div class="w-20 h-24 bg-muted rounded-lg overflow-hidden">
-                    <img src="https://placeholder-image-service.onrender.com/image/80x96?prompt=Turkish%20TV%20show%20poster%20with%20dramatic%20actors&id=star-tv-show-1&customer_id=cus_S13tU8Mo88w9Zk" alt="Poster for Yargı showing dramatic Turkish television actors" class="w-full h-full object-cover">
+                    <img src="https://placeholder-image-service.onrender.com/image/80x96?prompt=Turkish%20TV%20show%20poster%20with%20dramatic%20actors&id=star-tv-show-1&customer_id=cus_S13tU8Mo88w9Zk" alt="Yargı posteri" class="w-full h-full object-cover">
                   </div>
                   <div class="flex-1">
                     <h4 class="font-semibold text-lg">Yargı</h4>
                     <p class="text-muted-foreground text-sm mb-2">Dramatik bir adalet mücadelesi</p>
-                    <span class="inline-block bg-primary/10 text-primary text-xs px-2 py-1 rounded">Drama</span>
+                    <span class="inline-block bg-primary/10 text-primary text-xs px-2 py-1 rounded font-medium">Drama</span>
                   </div>
                 </div>
               </div>
 
-              <div class="bg-card text-card-foreground rounded-lg p-4 shadow-sm border border-border">
+              <div class="bg-card text-card-foreground rounded-lg p-4 shadow-sm border border-border card-hover">
                 <div class="flex space-x-4">
                   <div class="w-20 h-24 bg-muted rounded-lg overflow-hidden">
-                    <img src="https://placeholder-image-service.onrender.com/image/80x96?prompt=Turkish%20TV%20show%20poster%20with%20dramatic%20actors&id=star-tv-show-2&customer_id=cus_S13tU8Mo88w9Zk" alt="Poster for Kızılcık Şerbeti" class="w-full h-full object-cover">
+                    <img src="https://placeholder-image-service.onrender.com/image/80x96?prompt=Turkish%20TV%20show%20poster%20with%20dramatic%20actors&id=star-tv-show-2&customer_id=cus_S13tU8Mo88w9Zk" alt="Kızılcık Şerbeti posteri" class="w-full h-full object-cover">
                   </div>
                   <div class="flex-1">
                     <h4 class="font-semibold text-lg">Kızılcık Şerbeti</h4>
                     <p class="text-muted-foreground text-sm mb-2">Aşk ve aile ilişkileri</p>
-                    <span class="inline-block bg-primary/10 text-primary text-xs px-2 py-1 rounded">Romantik</span>
+                    <span class="inline-block bg-primary/10 text-primary text-xs px-2 py-1 rounded font-medium">Romantik</span>
                   </div>
                 </div>
               </div>
 
-              <div class="bg-card text-card-foreground rounded-lg p-4 shadow-sm border border-border">
+              <div class="bg-card text-card-foreground rounded-lg p-4 shadow-sm border border-border card-hover">
                 <div class="flex space-x-4">
                   <div class="w-20 h-24 bg-muted rounded-lg overflow-hidden">
-                    <img src="https://placeholder-image-service.onrender.com/image/80x96?prompt=Turkish%20TV%20show%20poster%20with%20dramatic%20actors&id=star-tv-show-3&customer_id=cus_S13tU8Mo88w9Zk" alt="Poster for Sakla Beni" class="w-full h-full object-cover">
+                    <img src="https://placeholder-image-service.onrender.com/image/80x96?prompt=Turkish%20TV%20show%20poster%20with%20dramatic%20actors&id=star-tv-show-3&customer_id=cus_S13tU8Mo88w9Zk" alt="Sakla Beni posteri" class="w-full h-full object-cover">
                   </div>
                   <div class="flex-1">
                     <h4 class="font-semibold text-lg">Sakla Beni</h4>
                     <p class="text-muted-foreground text-sm mb-2">Gerilim dolu bir hikaye</p>
-                    <span class="inline-block bg-primary/10 text-primary text-xs px-2 py-1 rounded">Gerilim</span>
+                    <span class="inline-block bg-primary/10 text-primary text-xs px-2 py-1 rounded font-medium">Gerilim</span>
                   </div>
                 </div>
               </div>
@@ -193,32 +200,32 @@
             </div>
           </div>
 
-          <!-- Live Channels -->
+          <!-- Live Channels: Star TV canlı yayın bölümüne benzer -->
           <div>
             <h3 class="text-xl font-bold mb-4">Canlı Yayınlar</h3>
             <div class="space-y-3">
-              <div class="bg-card text-card-foreground rounded-lg p-4 shadow-sm border border-border">
+              <div class="bg-card text-card-foreground rounded-lg p-4 shadow-sm border border-border card-hover">
                 <div class="flex items-center justify-between">
                   <div>
                     <h4 class="font-semibold">Star TV</h4>
                     <p class="text-muted-foreground text-sm">Yargı</p>
                   </div>
                   <div class="text-right">
-                    <span class="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded">2.4M izleyici</span>
-                    <button class="mt-2 bg-primary text-primary-foreground px-4 py-1 rounded text-sm hover:bg-primary/90">İzle</button>
+                    <span class="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded font-medium">2.4M izleyici</span>
+                    <button class="mt-2 bg-primary text-primary-foreground px-4 py-1 rounded text-sm font-medium hover:bg-primary/90 shadow-sm">İzle</button>
                   </div>
                 </div>
               </div>
 
-              <div class="bg-card text-card-foreground rounded-lg p-4 shadow-sm border border-border">
+              <div class="bg-card text-card-foreground rounded-lg p-4 shadow-sm border border-border card-hover">
                 <div class="flex items-center justify-between">
                   <div>
                     <h4 class="font-semibold">Star 2</h4>
                     <p class="text-muted-foreground text-sm">Tekrarlar</p>
                   </div>
                   <div class="text-right">
-                    <span class="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded">890K izleyici</span>
-                    <button class="mt-2 bg-primary text-primary-foreground px-4 py-1 rounded text-sm hover:bg-primary/90">İzle</button>
+                    <span class="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded font-medium">890K izleyici</span>
+                    <button class="mt-2 bg-primary text-primary-foreground px-4 py-1 rounded text-sm font-medium hover:bg-primary/90 shadow-sm">İzle</button>
                   </div>
                 </div>
               </div>
@@ -228,28 +235,28 @@
         </div>
       </section>
 
-      <!-- Shows Tab -->
+      <!-- Shows Tab: Star TV diziler sayfasına benzer grid -->
       <section id="tab-shows" class="tab-content hidden">
         <h2 class="text-2xl font-bold mb-6">Tüm Diziler</h2>
         <div class="grid grid-cols-2 gap-4">
-          <div class="bg-card rounded-lg overflow-hidden shadow-sm">
-            <img src="https://placeholder-image-service.onrender.com/image/160x240?prompt=Turkish%20drama%20series%20Yarg%C4%B1%20with%20courtroom%20scene&id=star-yargi-1&customer_id=cus_S13tU8Mo88w9Zk" alt="Yargı Turkish drama series poster showing intense courtroom scene with lawyers" class="w-full h-48 object-cover">
+          <div class="bg-card rounded-lg overflow-hidden shadow-sm card-hover">
+            <img src="https://placeholder-image-service.onrender.com/image/160x240?prompt=Turkish%20drama%20series%20Yarg%C4%B1%20with%20courtroom%20scene&id=star-yargi-1&customer_id=cus_S13tU8Mo88w9Zk" alt="Yargı posteri" class="w-full h-48 object-cover">
             <div class="p-3">
               <h3 class="font-semibold">Yargı</h3>
               <p class="text-muted-foreground text-sm">Drama</p>
             </div>
           </div>
 
-          <div class="bg-card rounded-lg overflow-hidden shadow-sm">
-            <img src="https://placeholder-image-service.onrender.com/image/160x240?prompt=Romantic%20Turkish%20series%20K%C4%B1z%C4%B1lc%C4%B1k%20%C5%9Eerbeti&id=star-kizilcik-1&customer_id=cus_S13tU8Mo88w9Zk" alt="Kızılcık Şerbeti romantic Turkish series with couple in emotional scene" class="w-full h-48 object-cover">
+          <div class="bg-card rounded-lg overflow-hidden shadow-sm card-hover">
+            <img src="https://placeholder-image-service.onrender.com/image/160x240?prompt=Romantic%20Turkish%20series%20K%C4%B1z%C4%B1lc%C4%B1k%20%C5%9Eerbeti&id=star-kizilcik-1&customer_id=cus_S13tU8Mo88w9Zk" alt="Kızılcık Şerbeti posteri" class="w-full h-48 object-cover">
             <div class="p-3">
               <h3 class="font-semibold">Kızılcık Şerbeti</h3>
               <p class="text-muted-foreground text-sm">Romantik</p>
             </div>
           </div>
 
-          <div class="bg-card rounded-lg overflow-hidden shadow-sm">
-            <img src="https://placeholder-image-service.onrender.com/image/160x240?prompt=Turkish%20thriller%20series%20Sakla%20Beni&id=star-sakla-1&customer_id=cus_S13tU8Mo88w9Zk" alt="Sakla Beni thriller series with mysterious atmosphere and suspenseful characters" class="w-full h-48 object-cover">
+          <div class="bg-card rounded-lg overflow-hidden shadow-sm card-hover">
+            <img src="https://placeholder-image-service.onrender.com/image/160x240?prompt=Turkish%20thriller%20series%20Sakla%20Beni&id=star-sakla-1&customer_id=cus_S13tU8Mo88w9Zk" alt="Sakla Beni posteri" class="w-full h-48 object-cover">
             <div class="p-3">
               <h3 class="font-semibold">Sakla Beni</h3>
               <p class="text-muted-foreground text-sm">Gerilim</p>
@@ -259,18 +266,18 @@
         </div>
       </section>
 
-      <!-- Live Tab -->
+      <!-- Live Tab: Star TV canlı yayın sayfasına benzer -->
       <section id="tab-live" class="tab-content hidden">
         <h2 class="text-2xl font-bold mb-6">Canlı Yayın</h2>
-        <div class="bg-card rounded-xl overflow-hidden shadow-lg mb-6">
+        <div class="bg-card rounded-xl overflow-hidden shadow-lg mb-6 card-hover">
           <div class="relative">
-            <img src="https://placeholder-image-service.onrender.com/image/320x180?prompt=Live%20TV%20broadcast%20screen%20with%20Star%20TV%20logo&id=star-live-1&customer_id=cus_S13tU8Mo88w9Zk" alt="Live TV broadcast screen showing Star TV channel with current program" class="w-full h-48 object-cover">
-            <div class="absolute top-4 right-4 bg-red-600 text-white px-2 py-1 rounded text-sm">CANLI</div>
+            <img src="https://placeholder-image-service.onrender.com/image/320x180?prompt=Live%20TV%20broadcast%20screen%20with%20Star%20TV%20logo&id=star-live-1&customer_id=cus_S13tU8Mo88w9Zk" alt="Star TV canlı yayın ekranı" class="w-full h-48 object-cover">
+            <div class="absolute top-4 right-4 bg-primary text-white px-3 py-1 rounded text-sm font-semibold">CANLI</div>
           </div>
           <div class="p-4">
             <h3 class="font-bold text-lg mb-2">Star TV Canlı Yayın</h3>
             <p class="text-muted-foreground mb-4">Şu an oynuyor: Yargı</p>
-            <button class="w-full bg-primary text-primary-foreground py-3 rounded-lg font-semibold hover:bg-primary/90">İzlemeye Başla</button>
+            <button class="w-full bg-primary text-primary-foreground py-3 rounded-lg font-semibold hover:bg-primary/90 shadow-sm">İzlemeye Başla</button>
           </div>
         </div>
 
@@ -293,12 +300,12 @@
         </div>
       </section>
 
-      <!-- News Tab -->
+      <!-- News Tab: Star TV haberler sayfasına benzer -->
       <section id="tab-news" class="tab-content hidden">
         <h2 class="text-2xl font-bold mb-6">Haberler</h2>
         <div class="space-y-4">
-          <div class="bg-card rounded-lg overflow-hidden shadow-sm">
-            <img src="https://placeholder-image-service.onrender.com/image/320x180?prompt=Breaking%20news%20headline%20with%20Turkish%20news%20banner&id=star-news-1&customer_id=cus_S13tU8Mo88w9Zk" alt="Breaking news headline with dramatic Turkish news banner and urgent typography" class="w-full h-40 object-cover">
+          <div class="bg-card rounded-lg overflow-hidden shadow-sm card-hover">
+            <img src="https://placeholder-image-service.onrender.com/image/320x180?prompt=Breaking%20news%20headline%20with%20Turkish%20news%20banner&id=star-news-1&customer_id=cus_S13tU8Mo88w9Zk" alt="Gündem haberleri" class="w-full h-40 object-cover">
             <div class="p-4">
               <h3 class="font-bold text-lg mb-2">Gündemdeki Önemli Gelişmeler</h3>
               <p class="text-muted-foreground mb-3">Son dakika haberleri ve analizler</p>
@@ -306,13 +313,13 @@
             </div>
           </div>
 
-          <div class="bg-card rounded-lg p-4 shadow-sm">
+          <div class="bg-card rounded-lg p-4 shadow-sm card-hover">
             <h3 class="font-bold text-lg mb-2">Dizi Haberleri</h3>
             <p class="text-muted-foreground mb-3">Yargı'nın yeni sezon tarihi belli oldu</p>
             <span class="text-xs text-muted-foreground">1 gün önce</span>
           </div>
 
-          <div class="bg-card rounded-lg p-4 shadow-sm">
+          <div class="bg-card rounded-lg p-4 shadow-sm card-hover">
             <h3 class="font-bold text-lg mb-2">Magazin</h3>
             <p class="text-muted-foreground mb-3">Ünlü oyuncuların kamera arkası görüntüleri</p>
             <span class="text-xs text-muted-foreground">3 saat önce</span>
@@ -322,7 +329,7 @@
 
     </main>
 
-    <!-- Footer -->
+    <!-- Footer: Star TV sitesine benzer basit footer -->
     <footer class="bg-muted border-t border-border p-4 mt-8">
       <div class="text-center text-muted-foreground text-sm">
         <p>© 2024 Star TV. Tüm hakları saklıdır.</p>
@@ -355,10 +362,9 @@
         if(el) el.classList.remove('hidden');
         // update nav active styles
         tabButtons.forEach(btn => {
+          btn.classList.remove('nav-active');
           if(btn.getAttribute('data-tabnav') === name){
-            btn.classList.add('bg-primary','text-primary-foreground');
-          } else {
-            btn.classList.remove('bg-primary','text-primary-foreground');
+            btn.classList.add('nav-active');
           }
         });
       }
