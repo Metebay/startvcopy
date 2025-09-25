@@ -1,895 +1,171 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Star TV - Canlı TV, Diziler, Haberler</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --star-red: #e30613;
-            --star-dark: #1a1a1a;
-            --star-gray: #f5f5f5;
-            --star-text: #333333;
-            --star-light-text: #666666;
-            --star-border: #e0e0e0;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Montserrat', sans-serif;
-        }
-        
-        body {
-            background-color: #ffffff;
-            color: var(--star-text);
-            line-height: 1.5;
-            overflow-x: hidden;
-        }
-        
-        /* Header Styles */
-        .header {
-            background-color: var(--star-red);
-            color: white;
-            padding: 12px 16px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-        
-        .header-content {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .logo-icon {
-            width: 36px;
-            height: 36px;
-            background: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            color: var(--star-red);
-            font-size: 16px;
-        }
-        
-        .logo-text {
-            font-size: 20px;
-            font-weight: 700;
-        }
-        
-        .menu-toggle {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 20px;
-            cursor: pointer;
-        }
-        
-        /* Mobile Menu */
-        .mobile-menu {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: white;
-            z-index: 200;
-            transform: translateX(-100%);
-            transition: transform 0.3s ease;
-            padding: 20px;
-            overflow-y: auto;
-        }
-        
-        .mobile-menu.active {
-            transform: translateX(0);
-        }
-        
-        .menu-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid var(--star-border);
-        }
-        
-        .menu-title {
-            font-size: 20px;
-            font-weight: 600;
-            color: var(--star-dark);
-        }
-        
-        .close-menu {
-            background: none;
-            border: none;
-            font-size: 24px;
-            color: var(--star-light-text);
-            cursor: pointer;
-        }
-        
-        .menu-nav {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        
-        .menu-item {
-            padding: 15px 0;
-            font-size: 16px;
-            font-weight: 500;
-            color: var(--star-text);
-            background: none;
-            border: none;
-            text-align: left;
-            cursor: pointer;
-            border-bottom: 1px solid var(--star-border);
-            transition: color 0.2s;
-        }
-        
-        .menu-item:hover {
-            color: var(--star-red);
-        }
-        
-        /* Navigation Tabs */
-        .nav-tabs {
-            display: flex;
-            background: white;
-            border-bottom: 1px solid var(--star-border);
-            overflow-x: auto;
-            scrollbar-width: none;
-        }
-        
-        .nav-tabs::-webkit-scrollbar {
-            display: none;
-        }
-        
-        .tab {
-            padding: 15px 20px;
-            font-size: 15px;
-            font-weight: 500;
-            color: var(--star-light-text);
-            background: none;
-            border: none;
-            white-space: nowrap;
-            cursor: pointer;
-            border-bottom: 2px solid transparent;
-            transition: all 0.2s;
-        }
-        
-        .tab.active {
-            color: var(--star-red);
-            border-bottom-color: var(--star-red);
-        }
-        
-        /* Main Content */
-        .container {
-            padding: 16px;
-        }
-        
-        .tab-content {
-            display: none;
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
-        
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(135deg, var(--star-red), #c10510);
-            color: white;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 24px;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .hero::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 120px;
-            height: 120px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            transform: translate(30%, -30%);
-        }
-        
-        .hero-title {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-        
-        .hero-description {
-            font-size: 14px;
-            margin-bottom: 20px;
-            opacity: 0.9;
-        }
-        
-        .hero-button {
-            background: white;
-            color: var(--star-red);
-            border: none;
-            padding: 10px 20px;
-            border-radius: 24px;
-            font-weight: 600;
-            font-size: 14px;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        
-        .hero-button:hover {
-            transform: translateY(-2px);
-        }
-        
-        /* Section Headers */
-        .section-header {
-            font-size: 20px;
-            font-weight: 600;
-            margin: 24px 0 16px;
-            color: var(--star-dark);
-        }
-        
-        /* Show Cards */
-        .show-list {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-        
-        .show-card {
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-            display: flex;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        
-        .show-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .show-image {
-            width: 100px;
-            height: 120px;
-            object-fit: cover;
-            flex-shrink: 0;
-        }
-        
-        .show-content {
-            padding: 16px;
-            flex-grow: 1;
-        }
-        
-        .show-title {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 6px;
-        }
-        
-        .show-description {
-            font-size: 13px;
-            color: var(--star-light-text);
-            margin-bottom: 10px;
-            line-height: 1.4;
-        }
-        
-        .show-category {
-            display: inline-block;
-            background: rgba(227, 6, 19, 0.1);
-            color: var(--star-red);
-            font-size: 12px;
-            font-weight: 500;
-            padding: 4px 10px;
-            border-radius: 12px;
-        }
-        
-        /* Live Channels */
-        .live-channels {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-        
-        .channel-card {
-            background: white;
-            border-radius: 12px;
-            padding: 16px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        
-        .channel-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-        
-        .channel-info h4 {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-        
-        .channel-info p {
-            font-size: 13px;
-            color: var(--star-light-text);
-        }
-        
-        .channel-stats {
-            text-align: right;
-        }
-        
-        .viewers {
-            display: inline-block;
-            background: #e8f5e9;
-            color: #2e7d32;
-            font-size: 11px;
-            font-weight: 500;
-            padding: 4px 8px;
-            border-radius: 10px;
-            margin-bottom: 8px;
-        }
-        
-        .watch-button {
-            background: var(--star-red);
-            color: white;
-            border: none;
-            padding: 6px 14px;
-            border-radius: 16px;
-            font-size: 12px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        
-        .watch-button:hover {
-            background: #c10510;
-        }
-        
-        /* Shows Grid */
-        .shows-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
-        }
-        
-        .show-grid-item {
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        
-        .show-grid-item:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .show-grid-image {
-            width: 100%;
-            height: 140px;
-            object-fit: cover;
-        }
-        
-        .show-grid-content {
-            padding: 12px;
-        }
-        
-        .show-grid-title {
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-        
-        .show-grid-category {
-            font-size: 12px;
-            color: var(--star-light-text);
-        }
-        
-        /* Live Stream */
-        .live-stream {
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            margin-bottom: 24px;
-        }
-        
-        .live-stream-header {
-            position: relative;
-        }
-        
-        .live-stream-image {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-        }
-        
-        .live-badge {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            background: var(--star-red);
-            color: white;
-            font-size: 12px;
-            font-weight: 600;
-            padding: 4px 10px;
-            border-radius: 12px;
-        }
-        
-        .live-stream-content {
-            padding: 16px;
-        }
-        
-        .live-stream-title {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-        
-        .live-stream-description {
-            font-size: 14px;
-            color: var(--star-light-text);
-            margin-bottom: 16px;
-        }
-        
-        .live-stream-button {
-            background: var(--star-red);
-            color: white;
-            border: none;
-            width: 100%;
-            padding: 12px;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        
-        .live-stream-button:hover {
-            background: #c10510;
-        }
-        
-        /* Schedule */
-        .schedule {
-            background: white;
-            border-radius: 12px;
-            padding: 16px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        }
-        
-        .schedule-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid var(--star-border);
-        }
-        
-        .schedule-item:last-child {
-            border-bottom: none;
-        }
-        
-        .schedule-time {
-            font-weight: 600;
-            color: var(--star-dark);
-        }
-        
-        .schedule-program {
-            color: var(--star-text);
-        }
-        
-        /* News Cards */
-        .news-list {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-        
-        .news-card {
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        
-        .news-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .news-image {
-            width: 100%;
-            height: 140px;
-            object-fit: cover;
-        }
-        
-        .news-content {
-            padding: 16px;
-        }
-        
-        .news-title {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-        
-        .news-description {
-            font-size: 14px;
-            color: var(--star-light-text);
-            margin-bottom: 12px;
-        }
-        
-        .news-time {
-            font-size: 12px;
-            color: var(--star-light-text);
-        }
-        
-        /* Footer */
-        .footer {
-            background: var(--star-dark);
-            color: white;
-            padding: 24px 16px;
-            margin-top: 40px;
-        }
-        
-        .footer-content {
-            text-align: center;
-        }
-        
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin: 16px 0;
-        }
-        
-        .footer-link {
-            color: #cccccc;
-            font-size: 14px;
-            transition: color 0.2s;
-        }
-        
-        .footer-link:hover {
-            color: white;
-        }
-        
-        .copyright {
-            font-size: 13px;
-            color: #999999;
-        }
-        
-        /* Responsive Adjustments */
-        @media (max-width: 480px) {
-            .shows-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .logo-text {
-                font-size: 18px;
-            }
-            
-            .hero-title {
-                font-size: 22px;
-            }
-        }
-        
-        /* Animation for tab switching */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .tab-content.active {
-            animation: fadeIn 0.3s ease;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Star TV</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background-color: #fff;
+      color: #222;
+    }
+    header {
+      background: #fff;
+      border-bottom: 2px solid #E30613;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header img {
+      height: 40px;
+    }
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      gap: 1.5rem;
+    }
+    nav a {
+      text-decoration: none;
+      color: #222;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+    nav a:hover {
+      color: #E30613;
+    }
+    .hero {
+      position: relative;
+      text-align: center;
+      background: url('https://i.ibb.co/7VY3jLk/startv-bg.jpg') center/cover no-repeat;
+      color: #fff;
+      padding: 6rem 1rem;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+    }
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+    .hero h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+    .hero p {
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+    .content {
+      padding: 3rem 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+    .card {
+      background: #fff;
+      border: 1px solid #eee;
+      border-radius: 10px;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+    }
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+    .card-content {
+      padding: 1.5rem;
+    }
+    .card-content h3 {
+      color: #E30613;
+      margin-top: 0;
+    }
+    footer {
+      background: #111;
+      color: #aaa;
+      text-align: center;
+      padding: 2rem 1rem;
+      font-size: 0.9rem;
+    }
+    footer a {
+      color: #aaa;
+      text-decoration: none;
+      margin: 0 1rem;
+      transition: color 0.2s;
+    }
+    footer a:hover {
+      color: #E30613;
+    }
+  </style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <div class="header-content">
-            <div class="logo">
-                <div class="logo-icon">S</div>
-                <div class="logo-text">Star TV</div>
-            </div>
-            <button class="menu-toggle">
-                <i class="fas fa-bars"></i>
-            </button>
-        </div>
-    </header>
+  <header>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Star_TV_logo.svg/512px-Star_TV_logo.svg.png" alt="Star TV Logo">
+    <nav>
+      <ul>
+        <li><a href="#">Ana Sayfa</a></li>
+        <li><a href="#">Yayın Akışı</a></li>
+        <li><a href="#">Programlar</a></li>
+        <li><a href="#">Diziler</a></li>
+        <li><a href="#">Haberler</a></li>
+      </ul>
+    </nav>
+  </header>
 
-    <!-- Mobile Menu -->
-    <div class="mobile-menu">
-        <div class="menu-header">
-            <div class="menu-title">Menü</div>
-            <button class="close-menu">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <nav class="menu-nav">
-            <button class="menu-item" data-tab="home">Ana Sayfa</button>
-            <button class="menu-item" data-tab="shows">Diziler</button>
-            <button class="menu-item" data-tab="live">Canlı Yayın</button>
-            <button class="menu-item" data-tab="news">Haberler</button>
-        </nav>
+  <section class="hero">
+    <div class="hero-content">
+      <h2>Star TV Dünyasına Hoş Geldiniz</h2>
+      <p>Türkiye'nin en popüler dizilerini, eğlence programlarını ve güncel yayın akışını keşfedin.</p>
     </div>
+  </section>
 
-    <!-- Navigation Tabs -->
-    <div class="nav-tabs">
-        <button class="tab active" data-tab="home">Ana Sayfa</button>
-        <button class="tab" data-tab="shows">Diziler</button>
-        <button class="tab" data-tab="live">Canlı</button>
-        <button class="tab" data-tab="news">Haberler</button>
+  <section class="content">
+    <div class="card">
+      <img src="https://i.ibb.co/0VQ1Zcz/dizi.jpg" alt="Diziler">
+      <div class="card-content">
+        <h3>Diziler</h3>
+        <p>En sevilen Star TV dizilerini izleyin ve yeni bölümlerden haberdar olun.</p>
+      </div>
     </div>
-
-    <!-- Main Content -->
-    <div class="container">
-        <!-- Home Tab -->
-        <div class="tab-content active" id="home-tab">
-            <!-- Hero Section -->
-            <div class="hero">
-                <h2 class="hero-title">Yargı</h2>
-                <p class="hero-description">Yeni bölüm ile ekranlarda! Adalet için verilen mücadele devam ediyor.</p>
-                <button class="hero-button">Hemen İzle</button>
-            </div>
-
-            <!-- Popular Shows -->
-            <h3 class="section-header">Popüler Diziler</h3>
-            <div class="show-list">
-                <div class="show-card">
-                    <img src="https://via.placeholder.com/100x120/e30613/ffffff?text=Yargı" alt="Yargı" class="show-image">
-                    <div class="show-content">
-                        <h4 class="show-title">Yargı</h4>
-                        <p class="show-description">Dramatik bir adalet mücadelesi ve aile sırları</p>
-                        <span class="show-category">Drama</span>
-                    </div>
-                </div>
-                
-                <div class="show-card">
-                    <img src="https://via.placeholder.com/100x120/1a1a1a/ffffff?text=Kızılcık" alt="Kızılcık Şerbeti" class="show-image">
-                    <div class="show-content">
-                        <h4 class="show-title">Kızılcık Şerbeti</h4>
-                        <p class="show-description">Aşk, aile ve hayatın içinden sıcak bir hikaye</p>
-                        <span class="show-category">Romantik</span>
-                    </div>
-                </div>
-                
-                <div class="show-card">
-                    <img src="https://via.placeholder.com/100x120/333333/ffffff?text=Sakla+Beni" alt="Sakla Beni" class="show-image">
-                    <div class="show-content">
-                        <h4 class="show-title">Sakla Beni</h4>
-                        <p class="show-description">Gerilim dolu bir hikaye ve sırlarla dolu geçmiş</p>
-                        <span class="show-category">Gerilim</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Live Channels -->
-            <h3 class="section-header">Canlı Yayınlar</h3>
-            <div class="live-channels">
-                <div class="channel-card">
-                    <div class="channel-info">
-                        <h4>Star TV</h4>
-                        <p>Yargı - Yeni Bölüm</p>
-                    </div>
-                    <div class="channel-stats">
-                        <span class="viewers">2.4M izleyici</span>
-                        <button class="watch-button">İzle</button>
-                    </div>
-                </div>
-                
-                <div class="channel-card">
-                    <div class="channel-info">
-                        <h4>Star 2</h4>
-                        <p>Tekrarlar - Kızılcık Şerbeti</p>
-                    </div>
-                    <div class="channel-stats">
-                        <span class="viewers">890K izleyici</span>
-                        <button class="watch-button">İzle</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Shows Tab -->
-        <div class="tab-content" id="shows-tab">
-            <h3 class="section-header">Tüm Diziler</h3>
-            <div class="shows-grid">
-                <div class="show-grid-item">
-                    <img src="https://via.placeholder.com/300x180/e30613/ffffff?text=Yargı" alt="Yargı" class="show-grid-image">
-                    <div class="show-grid-content">
-                        <h4 class="show-grid-title">Yargı</h4>
-                        <p class="show-grid-category">Drama</p>
-                    </div>
-                </div>
-                
-                <div class="show-grid-item">
-                    <img src="https://via.placeholder.com/300x180/1a1a1a/ffffff?text=Kızılcık" alt="Kızılcık Şerbeti" class="show-grid-image">
-                    <div class="show-grid-content">
-                        <h4 class="show-grid-title">Kızılcık Şerbeti</h4>
-                        <p class="show-grid-category">Romantik</p>
-                    </div>
-                </div>
-                
-                <div class="show-grid-item">
-                    <img src="https://via.placeholder.com/300x180/333333/ffffff?text=Sakla+Beni" alt="Sakla Beni" class="show-grid-image">
-                    <div class="show-grid-content">
-                        <h4 class="show-grid-title">Sakla Beni</h4>
-                        <p class="show-grid-category">Gerilim</p>
-                    </div>
-                </div>
-                
-                <div class="show-grid-item">
-                    <img src="https://via.placeholder.com/300x180/666666/ffffff?text=Yeni+Dizi" alt="Yeni Dizi" class="show-grid-image">
-                    <div class="show-grid-content">
-                        <h4 class="show-grid-title">Yakında</h4>
-                        <p class="show-grid-category">Drama</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Live Tab -->
-        <div class="tab-content" id="live-tab">
-            <!-- Live Stream -->
-            <div class="live-stream">
-                <div class="live-stream-header">
-                    <img src="https://via.placeholder.com/400x200/e30613/ffffff?text=Star+TV+Canlı" alt="Star TV Canlı" class="live-stream-image">
-                    <span class="live-badge">CANLI</span>
-                </div>
-                <div class="live-stream-content">
-                    <h3 class="live-stream-title">Star TV Canlı Yayın</h3>
-                    <p class="live-stream-description">Şu an oynuyor: Yargı - Yeni Bölüm</p>
-                    <button class="live-stream-button">İzlemeye Başla</button>
-                </div>
-            </div>
-
-            <!-- Schedule -->
-            <h3 class="section-header">Yayın Akışı</h3>
-            <div class="schedule">
-                <div class="schedule-item">
-                    <span class="schedule-time">19:00</span>
-                    <span class="schedule-program">Haberler</span>
-                </div>
-                <div class="schedule-item">
-                    <span class="schedule-time">20:00</span>
-                    <span class="schedule-program">Yargı</span>
-                </div>
-                <div class="schedule-item">
-                    <span class="schedule-time">22:00</span>
-                    <span class="schedule-program">Gece Haberleri</span>
-                </div>
-                <div class="schedule-item">
-                    <span class="schedule-time">23:00</span>
-                    <span class="schedule-program">Kızılcık Şerbeti (Tekrar)</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- News Tab -->
-        <div class="tab-content" id="news-tab">
-            <h3 class="section-header">Haberler</h3>
-            <div class="news-list">
-                <div class="news-card">
-                    <img src="https://via.placeholder.com/400x200/1a1a1a/ffffff?text=Gündem" alt="Gündem Haberleri" class="news-image">
-                    <div class="news-content">
-                        <h4 class="news-title">Gündemdeki Önemli Gelişmeler</h4>
-                        <p class="news-description">Son dakika haberleri ve detaylı analizler</p>
-                        <span class="news-time">2 saat önce</span>
-                    </div>
-                </div>
-                
-                <div class="news-card">
-                    <img src="https://via.placeholder.com/400x200/333333/ffffff?text=Dizi+Haber" alt="Dizi Haberleri" class="news-image">
-                    <div class="news-content">
-                        <h4 class="news-title">Dizi Haberleri</h4>
-                        <p class="news-description">Yargı'nın yeni sezon tarihi belli oldu</p>
-                        <span class="news-time">1 gün önce</span>
-                    </div>
-                </div>
-                
-                <div class="news-card">
-                    <img src="https://via.placeholder.com/400x200/666666/ffffff?text=Magazin" alt="Magazin" class="news-image">
-                    <div class="news-content">
-                        <h4 class="news-title">Magazin</h4>
-                        <p class="news-description">Ünlü oyuncuların kamera arkası görüntüleri</p>
-                        <span class="news-time">3 saat önce</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="card">
+      <img src="https://i.ibb.co/fq4MxhP/program.jpg" alt="Programlar">
+      <div class="card-content">
+        <h3>Programlar</h3>
+        <p>Magazin, yarışma ve eğlence programlarını takip edin.</p>
+      </div>
     </div>
+    <div class="card">
+      <img src="https://i.ibb.co/Jp7b38M/yayin.jpg" alt="Yayın Akışı">
+      <div class="card-content">
+        <h3>Yayın Akışı</h3>
+        <p>Günlük yayın akışını takip ederek hiçbir programı kaçırmayın.</p>
+      </div>
+    </div>
+  </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-links">
-                <a href="#" class="footer-link">Gizlilik</a>
-                <a href="#" class="footer-link">Kullanım Şartları</a>
-                <a href="#" class="footer-link">Yardım</a>
-            </div>
-            <p class="copyright">© 2024 Star TV. Tüm hakları saklıdır.</p>
-        </div>
-    </footer>
-
-    <script>
-        // Mobile Menu Toggle
-        const menuToggle = document.querySelector('.menu-toggle');
-        const mobileMenu = document.querySelector('.mobile-menu');
-        const closeMenu = document.querySelector('.close-menu');
-        
-        menuToggle.addEventListener('click', () => {
-            mobileMenu.classList.add('active');
-        });
-        
-        closeMenu.addEventListener('click', () => {
-            mobileMenu.classList.remove('active');
-        });
-        
-        // Tab Switching
-        const tabs = document.querySelectorAll('.tab');
-        const menuItems = document.querySelectorAll('.menu-item');
-        const tabContents = document.querySelectorAll('.tab-content');
-        
-        function switchTab(tabName) {
-            // Update tabs
-            tabs.forEach(tab => {
-                if (tab.dataset.tab === tabName) {
-                    tab.classList.add('active');
-                } else {
-                    tab.classList.remove('active');
-                }
-            });
-            
-            // Update content
-            tabContents.forEach(content => {
-                if (content.id === `${tabName}-tab`) {
-                    content.classList.add('active');
-                } else {
-                    content.classList.remove('active');
-                }
-            });
-            
-            // Close mobile menu if open
-            mobileMenu.classList.remove('active');
-        }
-        
-        // Add event listeners to tabs
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                switchTab(tab.dataset.tab);
-            });
-        });
-        
-        // Add event listeners to menu items
-        menuItems.forEach(item => {
-            item.addEventListener('click', () => {
-                switchTab(item.dataset.tab);
-            });
-        });
-    </script>
+  <footer>
+    <p>© 2025 Star TV. Tüm Hakları Saklıdır.</p>
+    <div>
+      <a href="#">Gizlilik</a>|
+      <a href="#">Kullanım Şartları</a>|
+      <a href="#">İletişim</a>
+    </div>
+  </footer>
 </body>
 </html>
