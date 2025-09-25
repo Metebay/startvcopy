@@ -1,171 +1,427 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Star TV</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Star TV - Mobil Önizleme</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
   <style>
-    body {
-      margin: 0;
-      font-family: 'Montserrat', sans-serif;
-      background-color: #fff;
-      color: #222;
+    :root{
+      --star-red: #E30613;
+      --bg: #ffffff;
+      --muted: #f6f7f8;
+      --dark: #0b0b0b;
+      --soft: #6b7280;
+      --card-border: #e9e9ea;
+      --radius: 12px;
     }
-    header {
-      background: #fff;
-      border-bottom: 2px solid #E30613;
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    *{box-sizing:border-box}
+    body{margin:0;font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--dark);-webkit-font-smoothing:antialiased}
+
+    /* Header */
+    .site-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:3px solid var(--star-red);background:#fff;position:sticky;top:0;z-index:60}
+    .logo{display:flex;align-items:center;gap:12px}
+    .logo img{height:34px}
+    .nav{display:flex;gap:18px}
+    .nav a{color:var(--dark);text-decoration:none;font-weight:600;font-size:14px}
+    .nav a:hover{color:var(--star-red)}
+    .menu-btn{display:none;background:transparent;border:0;padding:6px}
+
+    /* Hero slider */
+    .hero{position:relative;overflow:hidden}
+    .slides{display:flex;transition:transform .6s ease}
+    .slide{min-width:100%;height:56vh;display:flex;align-items:center;justify-content:center;color:#fff;background-position:center;background-size:cover;position:relative}
+    .slide-overlay{position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.6))}
+    .slide-content{position:relative;z-index:2;padding:20px;max-width:1100px;margin:0 auto;text-align:left}
+    .slide h2{font-size:clamp(20px,4vw,42px);margin:0 0 10px;font-weight:700;color:#fff}
+    .slide p{margin:0 0 18px;color:rgba(255,255,255,0.95);max-width:700px}
+    .btn{display:inline-block;background:var(--star-red);color:#fff;padding:10px 16px;border-radius:999px;text-decoration:none;font-weight:700}
+    .slider-controls{position:absolute;left:12px;right:12px;bottom:12px;display:flex;justify-content:space-between;align-items:center;z-index:3}
+    .dots{display:flex;gap:8px}
+    .dot{width:10px;height:10px;border-radius:999px;background:rgba(255,255,255,0.5)}
+    .dot.active{background:var(--star-red)}
+
+    /* Main layout */
+    .container{max-width:1100px;margin:0 auto;padding:18px}
+    .grid{display:grid;gap:18px}
+    .two-col{grid-template-columns:1fr 340px}
+    .cards-grid{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+
+    .card{background:#fff;border:1px solid var(--card-border);border-radius:var(--radius);overflow:hidden}
+    .card img{width:100%;height:160px;object-fit:cover;display:block}
+    .card-body{padding:14px}
+    .meta{font-size:13px;color:var(--soft);margin-bottom:8px}
+    .title{font-weight:700;margin:0 0 6px}
+    .excerpt{font-size:14px;color:#444;margin:0}
+
+    /* Video modal */
+    .video-thumb{position:relative;cursor:pointer}
+    .video-thumb .play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.6);padding:14px;border-radius:50%}
+    .video-modal{position:fixed;inset:0;background:rgba(0,0,0,0.7);display:none;align-items:center;justify-content:center;padding:24px;z-index:100}
+    .video-modal.open{display:flex}
+    .video-frame{width:100%;max-width:900px;height:56vh;background:#000;border-radius:10px;overflow:hidden;position:relative}
+    .close-btn{position:absolute;right:8px;top:8px;background:rgba(255,255,255,0.9);border-radius:6px;padding:6px;border:0}
+
+    /* News list */
+    .news-list{display:flex;flex-direction:column;gap:12px}
+    .news-item{display:flex;gap:12px;align-items:flex-start}
+    .news-item img{width:110px;height:72px;object-fit:cover;border-radius:8px}
+
+    /* Live & schedule */
+    .live-badge{display:inline-block;background:#ffedd5;color:#7c2d12;padding:6px 8px;border-radius:999px;font-weight:700;font-size:13px}
+    .schedule{background:var(--muted);padding:12px;border-radius:8px}
+    .schedule-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed #e6e6e6}
+
+    /* Footer */
+    footer.site-footer{background:#0b0b0b;color:#d1d5db;padding:36px 18px;margin-top:28px}
+    .footer-grid{display:grid;grid-template-columns:1fr 220px;gap:18px;max-width:1100px;margin:0 auto}
+    .socials{display:flex;gap:12px;margin-top:12px}
+    .socials a{display:inline-flex;padding:8px;border-radius:8px;background:#111;color:#fff;text-decoration:none}
+
+    /* Responsive */
+    @media (max-width:900px){
+      .two-col{grid-template-columns:1fr}
+      .nav{display:none}
+      .menu-btn{display:block}
+      .hero{height:auto}
+      .slide{height:44vh}
     }
-    header img {
-      height: 40px;
-    }
-    nav ul {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      gap: 1.5rem;
-    }
-    nav a {
-      text-decoration: none;
-      color: #222;
-      font-weight: 600;
-      transition: color 0.2s;
-    }
-    nav a:hover {
-      color: #E30613;
-    }
-    .hero {
-      position: relative;
-      text-align: center;
-      background: url('https://i.ibb.co/7VY3jLk/startv-bg.jpg') center/cover no-repeat;
-      color: #fff;
-      padding: 6rem 1rem;
-    }
-    .hero::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: rgba(0,0,0,0.5);
-    }
-    .hero-content {
-      position: relative;
-      z-index: 1;
-    }
-    .hero h2 {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-      font-weight: 700;
-    }
-    .hero p {
-      max-width: 600px;
-      margin: 0 auto;
-      font-size: 1.1rem;
-      line-height: 1.6;
-    }
-    .content {
-      padding: 3rem 2rem;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
-    }
-    .card {
-      background: #fff;
-      border: 1px solid #eee;
-      border-radius: 10px;
-      overflow: hidden;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 4px 14px rgba(0,0,0,0.1);
-    }
-    .card img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-    }
-    .card-content {
-      padding: 1.5rem;
-    }
-    .card-content h3 {
-      color: #E30613;
-      margin-top: 0;
-    }
-    footer {
-      background: #111;
-      color: #aaa;
-      text-align: center;
-      padding: 2rem 1rem;
-      font-size: 0.9rem;
-    }
-    footer a {
-      color: #aaa;
-      text-decoration: none;
-      margin: 0 1rem;
-      transition: color 0.2s;
-    }
-    footer a:hover {
-      color: #E30613;
-    }
+
   </style>
 </head>
 <body>
-  <header>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Star_TV_logo.svg/512px-Star_TV_logo.svg.png" alt="Star TV Logo">
-    <nav>
-      <ul>
-        <li><a href="#">Ana Sayfa</a></li>
-        <li><a href="#">Yayın Akışı</a></li>
-        <li><a href="#">Programlar</a></li>
-        <li><a href="#">Diziler</a></li>
-        <li><a href="#">Haberler</a></li>
-      </ul>
+
+  <header class="site-header">
+    <div class="logo">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Star_TV_logo.svg/512px-Star_TV_logo.svg.png" alt="Star TV Logo">
+    </div>
+
+    <nav class="nav" aria-label="Ana Menü">
+      <a href="#">ANA SAYFA</a>
+      <a href="#programlar">PROGRAMLAR</a>
+      <a href="#diziler">DİZİLER</a>
+      <a href="#haberler">HABERLER</a>
+      <a href="#canli">CANLI</a>
     </nav>
+
+    <button class="menu-btn" id="menuToggle" aria-expanded="false" aria-label="Menü">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+    </button>
   </header>
 
-  <section class="hero">
-    <div class="hero-content">
-      <h2>Star TV Dünyasına Hoş Geldiniz</h2>
-      <p>Türkiye'nin en popüler dizilerini, eğlence programlarını ve güncel yayın akışını keşfedin.</p>
+  <!-- Mobile menu -->
+  <div id="mobileMenu" style="display:none;background:#fff;padding:12px;border-bottom:1px solid var(--card-border);position:sticky;top:51px;z-index:55">
+    <a href="#" style="display:block;padding:10px 8px;color:var(--dark);text-decoration:none;font-weight:700">Ana Sayfa</a>
+    <a href="#programlar" style="display:block;padding:10px 8px;color:var(--dark);text-decoration:none;font-weight:700">Programlar</a>
+    <a href="#diziler" style="display:block;padding:10px 8px;color:var(--dark);text-decoration:none;font-weight:700">Diziler</a>
+    <a href="#haberler" style="display:block;padding:10px 8px;color:var(--dark);text-decoration:none;font-weight:700">Haberler</a>
+    <a href="#canli" style="display:block;padding:10px 8px;color:var(--dark);text-decoration:none;font-weight:700">Canlı</a>
+  </div>
+
+  <!-- HERO / SLIDER -->
+  <section class="hero" aria-label="Öne çıkanlar">
+    <div class="slides" id="slides">
+      <article class="slide" style="background-image:url('https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fit=crop&w=1400&q=60')" aria-roledescription="slide">
+        <div class="slide-overlay"></div>
+        <div class="slide-content">
+          <div style="max-width:640px">
+            <div class="meta">YENİ BÖLÜM</div>
+            <h2>Yargı - Yeni Sezon Başladı</h2>
+            <p>Adalet, entrika ve güçlü karakterlerle dolu Yargı'nın yeni sezon fragmanını ve yayın tarihini kaçırmayın.</p>
+            <a href="#" class="btn">Bölümü İzle</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="slide" style="background-image:url('https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?auto=format&fit=crop&w=1400&q=60')">
+        <div class="slide-overlay"></div>
+        <div class="slide-content">
+          <div style="max-width:640px">
+            <div class="meta">ÖZEL</div>
+            <h2>Kızılcık Şerbeti - Aşk ve Dram</h2>
+            <p>Aşk, sırlar ve aile bağları... Kızılcık Şerbeti'nin yeni bölümleri Star TV'de.</p>
+            <a href="#" class="btn">Fragmanı İzle</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="slide" style="background-image:url('https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?auto=format&fit=crop&w=1400&q=60&sat=-30')">
+        <div class="slide-overlay"></div>
+        <div class="slide-content">
+          <div style="max-width:640px">
+            <div class="meta">CANLI</div>
+            <h2>Star TV Canlı Yayın</h2>
+            <p>Güncel haberler, canlı programlar ve özel yayınlarla Star TV'de kalın.</p>
+            <a href="#canli" class="btn">Canlı Yayını Aç</a>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <div class="slider-controls">
+      <div class="dots" id="dots"></div>
+      <div style="display:flex;gap:8px">
+        <button id="prev" aria-label="Önceki" style="background:rgba(0,0,0,0.4);color:#fff;border:0;padding:8px;border-radius:6px">◀</button>
+        <button id="next" aria-label="Sonraki" style="background:rgba(0,0,0,0.4);color:#fff;border:0;padding:8px;border-radius:6px">▶</button>
+      </div>
     </div>
   </section>
 
-  <section class="content">
-    <div class="card">
-      <img src="https://i.ibb.co/0VQ1Zcz/dizi.jpg" alt="Diziler">
-      <div class="card-content">
-        <h3>Diziler</h3>
-        <p>En sevilen Star TV dizilerini izleyin ve yeni bölümlerden haberdar olun.</p>
-      </div>
-    </div>
-    <div class="card">
-      <img src="https://i.ibb.co/fq4MxhP/program.jpg" alt="Programlar">
-      <div class="card-content">
-        <h3>Programlar</h3>
-        <p>Magazin, yarışma ve eğlence programlarını takip edin.</p>
-      </div>
-    </div>
-    <div class="card">
-      <img src="https://i.ibb.co/Jp7b38M/yayin.jpg" alt="Yayın Akışı">
-      <div class="card-content">
-        <h3>Yayın Akışı</h3>
-        <p>Günlük yayın akışını takip ederek hiçbir programı kaçırmayın.</p>
-      </div>
-    </div>
-  </section>
+  <!-- MAIN -->
+  <main class="container">
+    <div class="grid two-col">
+      <div>
+        <!-- Programlar / Diziler -->
+        <section id="programlar" style="margin-bottom:20px">
+          <h3 style="margin:0 0 12px;font-size:18px;font-weight:700;color:var(--star-red)">Öne Çıkan Programlar & Diziler</h3>
+          <div class="grid cards-grid" style="grid-template-columns:repeat(auto-fill,minmax(260px,1fr));">
 
-  <footer>
-    <p>© 2025 Star TV. Tüm Hakları Saklıdır.</p>
-    <div>
-      <a href="#">Gizlilik</a>|
-      <a href="#">Kullanım Şartları</a>|
-      <a href="#">İletişim</a>
+            <article class="card">
+              <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=60" alt="Yargı">
+              <div class="card-body">
+                <div class="meta">Drama • 42dk</div>
+                <h4 class="title">Yargı</h4>
+                <p class="excerpt">Dramatik adalet mücadelesi ve sürükleyici hikayesiyle Yargı yeni bölümleriyle ekranlarda.</p>
+              </div>
+            </article>
+
+            <article class="card">
+              <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=800&q=60" alt="Kızılcık Şerbeti">
+              <div class="card-body">
+                <div class="meta">Romantik • 38dk</div>
+                <h4 class="title">Kızılcık Şerbeti</h4>
+                <p class="excerpt">Aile bağları ve aşk üçgenleriyle örülü kaliteli bir dizi.</p>
+              </div>
+            </article>
+
+            <article class="card">
+              <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=800&q=60" alt="Sakla Beni">
+              <div class="card-body">
+                <div class="meta">Gerilim • 45dk</div>
+                <h4 class="title">Sakla Beni</h4>
+                <p class="excerpt">Gerilim dolu sahneler ve çözülmeyi bekleyen sırlar.</p>
+              </div>
+            </article>
+
+          </div>
+        </section>
+
+        <!-- Haberler -->
+        <section id="haberler" style="margin-bottom:20px">
+          <h3 style="margin:0 0 12px;font-size:18px;font-weight:700;color:var(--star-red)">Son Dakika Haberleri</h3>
+          <div class="news-list">
+            <div class="news-item">
+              <img src="https://images.unsplash.com/photo-1522199710521-72d69614c702?auto=format&fit=crop&w=800&q=60" alt="haber">
+              <div>
+                <div class="meta">2 saat önce</div>
+                <h4 class="title" style="font-size:16px;margin-bottom:6px">Yargı yeni sezon fragmanı yayınlandı</h4>
+                <p class="excerpt" style="margin:0">Yargı dizisinin yeni sezon fragmanı yayınlandı. Oyuncuların açıklamaları ve yayın tarihi için tıklayın.</p>
+              </div>
+            </div>
+
+            <div class="news-item">
+              <img src="https://images.unsplash.com/photo-1508385082359-f92f2d19b1b5?auto=format&fit=crop&w=800&q=60" alt="haber">
+              <div>
+                <div class="meta">5 saat önce</div>
+                <h4 class="title" style="font-size:16px;margin-bottom:6px">Star TV'den özel röportaj</h4>
+                <p class="excerpt" style="margin:0">Ünlü oyuncularla yapılan kamera arkası röportajları ve özel anlar.</p>
+              </div>
+            </div>
+
+            <div class="news-item">
+              <img src="https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=800&q=60" alt="haber">
+              <div>
+                <div class="meta">1 gün önce</div>
+                <h4 class="title" style="font-size:16px;margin-bottom:6px">Yeni yarışma programı yakında</h4>
+                <p class="excerpt" style="margin:0">Eğlence dolu yeni yarışma programının ilk detayları paylaşıldı.</p>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- Video bölüm -->
+        <section id="videolar" style="margin-bottom:20px">
+          <h3 style="margin:0 0 12px;font-size:18px;font-weight:700;color:var(--star-red)">Videolar</h3>
+          <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(260px,1fr));">
+            <div class="card video-thumb" data-video="https://www.youtube.com/embed/dQw4w9WgXcQ">
+              <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=60" alt="video">
+              <div class="card-body">
+                <div class="meta">Fragman</div>
+                <h4 class="title">Yargı - Yeni Bölüm Fragmanı</h4>
+              </div>
+              <div class="play" style="position:absolute;right:14px;bottom:14px;background:rgba(0,0,0,0.6);padding:10px;border-radius:50%">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M5 3v18l15-9z"></path></svg>
+              </div>
+            </div>
+
+            <div class="card video-thumb" data-video="https://www.youtube.com/embed/3GwjfUFyY6M">
+              <img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=800&q=60" alt="video">
+              <div class="card-body">
+                <div class="meta">Özel</div>
+                <h4 class="title">Kızılcık Şerbeti - Kamera Arkası</h4>
+              </div>
+              <div class="play" style="position:absolute;right:14px;bottom:14px;background:rgba(0,0,0,0.6);padding:10px;border-radius:50%">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M5 3v18l15-9z"></path></svg>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+      </div>
+
+      <aside>
+        <!-- Canlı & Yayın Akışı -->
+        <section id="canli" class="card" style="padding:12px;margin-bottom:18px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+            <div>
+              <div class="live-badge">CANLI</div>
+              <h4 class="title" style="margin:8px 0 0">Star TV</h4>
+            </div>
+            <div style="text-align:right">
+              <div style="font-weight:700">2.4M</div>
+              <div style="font-size:13px;color:var(--soft)">izleyici</div>
+            </div>
+          </div>
+          <div style="margin-top:8px">
+            <button class="btn" style="width:100%">Canlı Yayını İzle</button>
+          </div>
+        </section>
+
+        <section class="card schedule" style="margin-bottom:18px">
+          <h4 style="margin:0 0 8px;font-weight:700;color:var(--star-red)">Yayın Akışı</h4>
+          <div class="schedule-row"><div>19:00</div><div>Haberler</div></div>
+          <div class="schedule-row"><div>20:00</div><div>Yargı</div></div>
+          <div class="schedule-row"><div>22:00</div><div>Gece Haberleri</div></div>
+        </section>
+
+        <section class="card" style="padding:14px">
+          <h4 style="margin:0 0 8px;font-weight:700;color:var(--star-red)">Bültenimize Kayıt Ol</h4>
+          <p style="margin:0 0 8px;color:var(--soft);font-size:14px">Yeni bölüm ve özel içerikler için e-posta adresinizi bırakın.</p>
+          <form id="newsletter" onsubmit="return false">
+            <input type="email" id="emailInput" required placeholder="E-posta adresiniz" style="width:100%;padding:10px;border-radius:8px;border:1px solid var(--card-border);margin-bottom:8px">
+            <button class="btn" style="width:100%">Abone Ol</button>
+          </form>
+        </section>
+
+      </aside>
+    </div>
+
+  </main>
+
+  <!-- Video Modal -->
+  <div id="videoModal" class="video-modal" role="dialog" aria-hidden="true">
+    <div class="video-frame" role="document">
+      <button class="close-btn" id="closeVideo" aria-label="Kapat">✕</button>
+      <iframe id="videoIframe" width="100%" height="100%" src="" title="Video Player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Star_TV_logo.svg/512px-Star_TV_logo.svg.png" alt="Star TV" style="height:36px">
+        <p style="color:#9ca3af;margin-top:12px;max-width:480px">Star TV - Türkiye'nin önde gelen televizyon kanallarından biri. En yeni dizi, program ve haber içeriklerini mobil deneyim için sunduğumuz sayfadan takip edebilirsiniz.</p>
+        <div class="socials" aria-label="Sosyal Medya">
+          <a href="#" aria-label="Facebook">f</a>
+          <a href="#" aria-label="Twitter">t</a>
+          <a href="#" aria-label="Instagram">ig</a>
+        </div>
+      </div>
+
+      <div style="text-align:right">
+        <div style="margin-bottom:10px"><strong>İletişim</strong></div>
+        <div style="color:#9ca3af">Email: iletisim@startv.com.tr</div>
+        <div style="color:#9ca3af">Tel: +90 (212) 000 00 00</div>
+        <div style="margin-top:12px">© 2025 Star TV</div>
+      </div>
     </div>
   </footer>
+
+  <script>
+    // Mobile menu toggle
+    const menuToggle = document.getElementById('menuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuToggle.addEventListener('click', () => {
+      const open = mobileMenu.style.display === 'block';
+      mobileMenu.style.display = open ? 'none' : 'block';
+      menuToggle.setAttribute('aria-expanded', !open);
+    });
+
+    // Slider
+    const slidesEl = document.getElementById('slides');
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const dotsEl = document.getElementById('dots');
+    const prevBtn = document.getElementById('prev');
+    const nextBtn = document.getElementById('next');
+    let current = 0;
+    let autoplay = true;
+    let timer = null;
+
+    function buildDots(){
+      slides.forEach((s,i)=>{
+        const d = document.createElement('button');
+        d.className = 'dot'+(i===0? ' active':'');
+        d.setAttribute('aria-label','Slide '+(i+1));
+        d.addEventListener('click', ()=>{goTo(i);resetTimer()});
+        dotsEl.appendChild(d);
+      });
+    }
+    function update(){
+      slidesEl.style.transform = `translateX(-${current*100}%)`;
+      Array.from(dotsEl.children).forEach((d,i)=> d.classList.toggle('active', i===current));
+    }
+    function goTo(i){current = (i+slides.length)%slides.length;update();}
+    function next(){goTo(current+1)}
+    function prev(){goTo(current-1)}
+    nextBtn.addEventListener('click', ()=>{next();resetTimer()});
+    prevBtn.addEventListener('click', ()=>{prev();resetTimer()});
+
+    function startTimer(){
+      if(timer) clearInterval(timer);
+      timer = setInterval(()=>{ next(); }, 4500);
+    }
+    function resetTimer(){ if(autoplay){ startTimer(); } }
+
+    buildDots(); update(); startTimer();
+
+    // Pause on hover
+    document.querySelector('.hero').addEventListener('mouseenter', ()=>{ if(timer) clearInterval(timer); });
+    document.querySelector('.hero').addEventListener('mouseleave', ()=>{ if(autoplay) startTimer(); });
+
+    // Video modal
+    const videoThumbs = document.querySelectorAll('.video-thumb');
+    const videoModal = document.getElementById('videoModal');
+    const videoIframe = document.getElementById('videoIframe');
+    const closeVideo = document.getElementById('closeVideo');
+
+    videoThumbs.forEach(t => {
+      t.addEventListener('click', ()=>{
+        const src = t.getAttribute('data-video') + '?autoplay=1&rel=0';
+        videoIframe.src = src;
+        videoModal.classList.add('open');
+        videoModal.setAttribute('aria-hidden','false');
+      });
+    });
+    closeVideo.addEventListener('click', ()=>{
+      videoIframe.src = '';
+      videoModal.classList.remove('open');
+      videoModal.setAttribute('aria-hidden','true');
+    });
+    videoModal.addEventListener('click', (e)=>{ if(e.target === videoModal){ closeVideo.click(); } });
+
+    // Newsletter (demo)
+    document.getElementById('newsletter').addEventListener('submit', ()=>{
+      const email = document.getElementById('emailInput').value;
+      if(!email) return;
+      alert('Teşekkürler! ' + email + ' ile abone oldunuz. (Demo)');
+      document.getElementById('emailInput').value = '';
+    });
+
+    // Accessibility: allow keyboard to close modal with ESC
+    document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape'){ if(videoModal.classList.contains('open')) closeVideo.click(); } });
+  </script>
 </body>
 </html>
