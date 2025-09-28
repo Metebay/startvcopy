@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bölümler — Haber Kartları (YouTube Videolu)</title>
+  <style>
+    :root{
+      --bg:#30D5C8; /* Yeni arka plan rengi */
+      --muted:#0d3b37; /* Arka plana uyumlu daha koyu ton */
+      --card-radius:12px;
+      --max-width:1200px;
+      --gap:18px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:#fff;-webkit-font-smoothing:antialiased}
+
+    .container{max-width:var(--max-width);margin:48px auto;padding:0 20px}
+
+    .header{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px}
+    .title{font-size:32px;font-weight:800}
+    .all-link{color:var(--muted);text-decoration:none;font-size:14px}
+    .all-link:hover{color:#fff}
+
+    .grid{display:grid;grid-template-columns:repeat(1,1fr);gap:var(--gap)}
+    @media(min-width:600px){.grid{grid-template-columns:repeat(2,1fr)}}
+    @media(min-width:900px){.grid{grid-template-columns:repeat(3,1fr)}}
+    @media(min-width:1200px){.grid{grid-template-columns:repeat(4,1fr)}}
+
+    .card{background:rgba(0,0,0,0.25);border-radius:var(--card-radius);padding:4px}
+    .thumb{
+      position:relative;
+      border-radius:var(--card-radius);
+      overflow:hidden;
+      aspect-ratio:16/9;
+      box-shadow:0 6px 20px rgba(0,0,0,0.4);
+      transition:transform .28s ease;
+    }
+    iframe{width:100%;height:100%;border:0;display:block}
+    .card:hover .thumb{transform:translateY(-4px)}
+
+    .meta{margin-top:14px}
+    .meta h3{margin:0;font-size:18px;line-height:1.1;font-weight:700;color:#fff}
+    .meta time{display:block;margin-top:6px;color:var(--muted);font-size:14px}
+
+    .note{margin-top:26px;color:var(--muted);font-size:13px}
+  </style>
+</head>
+<body>
+  <main class="container">
+    <header class="header">
+      <h1 class="title">Bölümler</h1>
+      <a class="all-link" href="#">Tümü</a>
+    </header>
+
+    <section class="grid" aria-label="Haber bölümleri">
+
+      <!-- Kart 1 -->
+      <article class="card">
+        <div class="thumb">
+          <iframe src="https://www.youtube.com/embed/VIDEO_ID_27" title="27 Eylül 2025 Ana Haber" allowfullscreen></iframe>
+        </div>
+        <div class="meta">
+          <h3>27 Eylül 2025 Ana Haber</h3>
+          <time datetime="2025-09-27">27 Eylül 2025</time>
+        </div>
+      </article>
+
+      <!-- Kart 2 -->
+      <article class="card">
+        <div class="thumb">
+          <iframe src="https://www.youtube.com/embed/VIDEO_ID_26" title="26 Eylül 2025 Ana Haber" allowfullscreen></iframe>
+        </div>
+        <div class="meta">
+          <h3>26 Eylül 2025 Ana Haber</h3>
+          <time datetime="2025-09-26">26 Eylül 2025</time>
+        </div>
+      </article>
+
+      <!-- Kart 3 -->
+      <article class="card">
+        <div class="thumb">
+          <iframe src="https://www.youtube.com/embed/VIDEO_ID_25" title="25 Eylül 2025 Ana Haber" allowfullscreen></iframe>
+        </div>
+        <div class="meta">
+          <h3>25 Eylül 2025 Ana Haber</h3>
+          <time datetime="2025-09-25">25 Eylül 2025</time>
+        </div>
+      </article>
+
+      <!-- Kart 4 -->
+      <article class="card">
+        <div class="thumb">
+          <iframe src="https://www.youtube.com/embed/VIDEO_ID_24" title="24 Eylül 2025 Ana Haber" allowfullscreen></iframe>
+        </div>
+        <div class="meta">
+          <h3>24 Eylül 2025 Ana Haber</h3>
+          <time datetime="2025-09-24">24 Eylül 2025</time>
+        </div>
+      </article>
+
+    </section>
+
+    <p class="note">Arka plan rengi #30D5C8 olarak güncellendi. Her "VIDEO_ID_*" kısmını ilgili YouTube video ID'si ile değiştirin.</p>
+  </main>
+</body>
+</html>
