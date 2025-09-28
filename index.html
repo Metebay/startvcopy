@@ -1,108 +1,666 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Bölümler — Haber Kartları (YouTube Videolu)</title>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Yıldız En TV - Bölümler</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    :root{
-      --bg:#30D5C8; /* Yeni arka plan rengi */
-      --muted:#0d3b37; /* Arka plana uyumlu daha koyu ton */
-      --card-radius:12px;
-      --max-width:1200px;
-      --gap:18px;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    :root {
+      --star-red: #E30613;
+      --star-red-dark: #B8050F;
+      --bg: #0A0A0A;
+      --bg-light: #151515;
+      --bg-card: #1A1A1A;
+      --text: #FFFFFF;
+      --text-muted: #A0A0A0;
+      --border: #2A2A2A;
+      --radius: 12px;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      --header-height: 80px;
+      --container-max: 1280px;
     }
-    *{box-sizing:border-box}
-    body{margin:0;background:var(--bg);color:#fff;-webkit-font-smoothing:antialiased}
 
-    .container{max-width:var(--max-width);margin:48px auto;padding:0 20px}
-
-    .header{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px}
-    .title{font-size:32px;font-weight:800}
-    .all-link{color:var(--muted);text-decoration:none;font-size:14px}
-    .all-link:hover{color:#fff}
-
-    .grid{display:grid;grid-template-columns:repeat(1,1fr);gap:var(--gap)}
-    @media(min-width:600px){.grid{grid-template-columns:repeat(2,1fr)}}
-    @media(min-width:900px){.grid{grid-template-columns:repeat(3,1fr)}}
-    @media(min-width:1200px){.grid{grid-template-columns:repeat(4,1fr)}}
-
-    .card{background:rgba(0,0,0,0.25);border-radius:var(--card-radius);padding:4px}
-    .thumb{
-      position:relative;
-      border-radius:var(--card-radius);
-      overflow:hidden;
-      aspect-ratio:16/9;
-      box-shadow:0 6px 20px rgba(0,0,0,0.4);
-      transition:transform .28s ease;
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
-    iframe{width:100%;height:100%;border:0;display:block}
-    .card:hover .thumb{transform:translateY(-4px)}
 
-    .meta{margin-top:14px}
-    .meta h3{margin:0;font-size:18px;line-height:1.1;font-weight:700;color:#fff}
-    .meta time{display:block;margin-top:6px;color:var(--muted);font-size:14px}
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
 
-    .note{margin-top:26px;color:var(--muted);font-size:13px}
+    /* Header */
+    .site-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      height: var(--header-height);
+      background: rgba(10, 10, 10, 0.95);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo img {
+      height: 50px;
+      filter: brightness(0) invert(1);
+    }
+
+    .nav {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: color 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .nav a:hover {
+      color: var(--star-red);
+    }
+
+    .menu-btn {
+      display: none;
+      background: transparent;
+      border: 0;
+      color: var(--text);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* Hero slider */
+    .hero {
+      margin-top: var(--header-height);
+      height: 70vh;
+      min-height: 500px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slides {
+      display: flex;
+      transition: transform 0.6s ease;
+      height: 100%;
+    }
+
+    .slide {
+      min-width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      background-position: center;
+      background-size: cover;
+      position: relative;
+    }
+
+    .slide-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 100%);
+    }
+
+    .slide-content {
+      position: relative;
+      z-index: 2;
+      padding: 0 2rem;
+      max-width: var(--container-max);
+      margin: 0 auto;
+      text-align: left;
+    }
+
+    .slide h2 {
+      font-size: 3rem;
+      margin: 0 0 1rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .slide p {
+      margin: 0 0 2rem;
+      color: rgba(255,255,255,0.9);
+      max-width: 600px;
+      font-size: 1.25rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: var(--star-red);
+      color: #fff;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .btn:hover {
+      background: var(--star-red-dark);
+      transform: translateY(-2px);
+    }
+
+    .slider-controls {
+      position: absolute;
+      left: 2rem;
+      right: 2rem;
+      bottom: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 3;
+    }
+
+    .dots {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.4);
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .dot.active {
+      background: var(--star-red);
+      transform: scale(1.3);
+    }
+
+    .slider-nav {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .slider-btn {
+      background: rgba(0,0,0,0.5);
+      color: #fff;
+      border: 0;
+      padding: 1rem;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .slider-btn:hover {
+      background: rgba(0,0,0,0.8);
+    }
+
+    /* Main Content */
+    .container {
+      max-width: var(--container-max);
+      margin: 0 auto;
+      padding: 4rem 2rem;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin: 0 0 2rem;
+      color: var(--text);
+    }
+
+    /* Bölümler Grid */
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .video-card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: all 0.3s;
+      border: 1px solid var(--border);
+    }
+
+    .video-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow);
+    }
+
+    .video-thumb {
+      position: relative;
+      aspect-ratio: 16/9;
+    }
+
+    .video-thumb iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .video-meta {
+      padding: 1.5rem;
+    }
+
+    .video-meta h3 {
+      margin: 0 0 0.5rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .video-meta time {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    /* Footer */
+    footer.site-footer {
+      background: #080808;
+      color: #b0b0b0;
+      padding: 4rem 2rem 2rem;
+      margin-top: 4rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 3rem;
+      max-width: var(--container-max);
+      margin: 0 auto;
+    }
+
+    .footer-logo {
+      height: 40px;
+      margin-bottom: 1.5rem;
+      filter: brightness(0) invert(1);
+    }
+
+    .footer-description {
+      color: #9ca3af;
+      margin-top: 1rem;
+      line-height: 1.6;
+    }
+
+    .socials {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+
+    .socials a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #222;
+      color: #fff;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+
+    .socials a:hover {
+      background: var(--star-red);
+      transform: translateY(-2px);
+    }
+
+    .footer-links h4 {
+      margin: 0 0 1.5rem;
+      font-size: 1.25rem;
+      color: #fff;
+    }
+
+    .footer-links ul {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 0.75rem;
+    }
+
+    .footer-links a {
+      color: #9ca3af;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-links a:hover {
+      color: #fff;
+    }
+
+    .footer-contact h4 {
+      margin: 0 0 1.5rem;
+      font-size: 1.25rem;
+      color: #fff;
+    }
+
+    .contact-info {
+      color: #9ca3af;
+      line-height: 1.6;
+    }
+
+    .contact-info p {
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .copyright {
+      text-align: center;
+      padding-top: 3rem;
+      margin-top: 3rem;
+      border-top: 1px solid #333;
+      color: #777;
+      max-width: var(--container-max);
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .nav {
+        display: none;
+      }
+      
+      .menu-btn {
+        display: block;
+      }
+      
+      .hero {
+        height: 60vh;
+      }
+      
+      .slide h2 {
+        font-size: 2rem;
+      }
+      
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .site-header {
+        padding: 0 1rem;
+      }
+      
+      .hero {
+        height: 50vh;
+      }
+      
+      .slide h2 {
+        font-size: 1.5rem;
+      }
+      
+      .slide p {
+        font-size: 1rem;
+      }
+      
+      .video-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .container {
+        padding: 2rem 1rem;
+      }
+    }
   </style>
 </head>
 <body>
-  <main class="container">
-    <header class="header">
-      <h1 class="title">Bölümler</h1>
-      <a class="all-link" href="#">Tümü</a>
-    </header>
+  <!-- Header -->
+  <header class="site-header">
+    <div class="logo">
+      <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjQwIiB2aWV3Qm94PSIwIDAgMTUwIDQwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Ik0xMCAxMFYzMEgzMFYyNkgxNFYxMEgxMFpNNDAgMTBWMzBINDZWMjZINDJWMTRINDZWMTAoNDBaTTU4IDEwVjMwSDY0VjE2SDcwVjEwSDU4Wk02NCAyNlYyMEg2OFYyNkg2NFpNODIgMTBWMzBIOThWMjZIODZWMjJIOThWMThIODZWMTRIOThWMTAoODJaTTEwNiAxMFYzMEgxMTJWMjZIMTE2VjIySDExMlYxOEgxMTZWMTRIMTEyVjEwSDEwNlpNMTI0IDEwVjMwSDEzMFYyNkgxMzRWMjJIMTMwVjE4SDEzNFYxNEgxMzBWMTBIMTI0WiIgZmlsbD0iI0UzMDYxMyIvPjxwYXRoIGQ9Ik0xMzYgMTBWMzBIMTQyVjE2SDE0OFYxMEgxMzZaIiBmaWxsPSIjRjBGMEYwIi8+PC9zdmc+" alt="Yıldız En TV">
+    </div>
 
-    <section class="grid" aria-label="Haber bölümleri">
+    <nav class="nav">
+      <a href="#"><i class="fas fa-home"></i> Ana Sayfa</a>
+      <a href="#bolumler"><i class="fas fa-play-circle"></i> Bölümler</a>
+      <a href="#"><i class="fas fa-tv"></i> Programlar</a>
+      <a href="#"><i class="fas fa-broadcast-tower"></i> Canlı</a>
+      <a href="#"><i class="fas fa-info-circle"></i> Hakkımızda</a>
+    </nav>
 
-      <!-- Kart 1 -->
-      <article class="card">
-        <div class="thumb">
-          <iframe src="https://www.youtube.com/embed/r_ptM-geqZg?si=Utt_4c_GNZjDhxwx" title="27 Eylül 2025 Ana Haber" allowfullscreen></iframe>
-        </div>
-        <div class="meta">
-          <h3>27 Eylül 2025 Ana Haber</h3>
-          <time datetime="2025-09-27">27 Eylül 2025</time>
-        </div>
-      </article>
+    <button class="menu-btn">
+      <i class="fas fa-bars"></i>
+    </button>
+  </header>
 
-      <!-- Kart 2 -->
-      <article class="card">
-        <div class="thumb">
-          <iframe src="https://www.youtube.com/embed/VIDEO_ID_26" title="26 Eylül 2025 Ana Haber" allowfullscreen></iframe>
+  <!-- Hero Slider -->
+  <section class="hero">
+    <div class="slides" id="slides">
+      <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80')">
+        <div class="slide-overlay"></div>
+        <div class="slide-content">
+          <h2>En Yeni Diziler</h2>
+          <p>Bu sezonun en çok konuşulan dizilerini keşfedin. Yıldız En TV'de sadece en iyisi var.</p>
+          <a href="#bolumler" class="btn">Hemen İzle</a>
         </div>
-        <div class="meta">
-          <h3>26 Eylül 2025 Ana Haber</h3>
-          <time datetime="2025-09-26">26 Eylül 2025</time>
+      </div>
+      <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1574267432553-4b4628081c31?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80')">
+        <div class="slide-overlay"></div>
+        <div class="slide-content">
+          <h2>Güncel Haberler</h2>
+          <p>Dünyadan ve Türkiye'den en güncel haberler, objektif bakış açısıyla Yıldız En TV'de.</p>
+          <a href="#bolumler" class="btn">Haberleri Gör</a>
         </div>
-      </article>
+      </div>
+      <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1499364615650-ec38552f4f34?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80')">
+        <div class="slide-overlay"></div>
+        <div class="slide-content">
+          <h2>Özel Programlar</h2>
+          <p>Uzman konuklarla derinlemesine analizler ve eğlence dolu programlar.</p>
+          <a href="#bolumler" class="btn">Programlar</a>
+        </div>
+      </div>
+    </div>
+    <div class="slider-controls">
+      <div class="dots" id="dots">
+        <button class="dot active"></button>
+        <button class="dot"></button>
+        <button class="dot"></button>
+      </div>
+      <div class="slider-nav">
+        <button class="slider-btn" id="prevBtn"><i class="fas fa-chevron-left"></i></button>
+        <button class="slider-btn" id="nextBtn"><i class="fas fa-chevron-right"></i></button>
+      </div>
+    </div>
+  </section>
 
-      <!-- Kart 3 -->
-      <article class="card">
-        <div class="thumb">
-          <iframe src="https://www.youtube.com/embed/VIDEO_ID_25" title="25 Eylül 2025 Ana Haber" allowfullscreen></iframe>
-        </div>
-        <div class="meta">
-          <h3>25 Eylül 2025 Ana Haber</h3>
-          <time datetime="2025-09-25">25 Eylül 2025</time>
-        </div>
-      </article>
+  <!-- Bölümler -->
+  <div class="container">
+    <section id="bolumler">
+      <h2 class="section-title">Bölümler</h2>
+      <div class="video-grid">
+        <!-- Video 1 -->
+        <article class="video-card">
+          <div class="video-thumb">
+            <iframe src="https://www.youtube.com/embed/r0rBFz6NhQM" title="Mehmet Ekici ile Gönül Avazı" allowfullscreen></iframe>
+          </div>
+          <div class="video-meta">
+            <h3>Mehmet Ekici ile Gönül Avazı</h3>
+            <time datetime="2025-01-29">29 Ocak 2025</time>
+          </div>
+        </article>
 
-      <!-- Kart 4 -->
-      <article class="card">
-        <div class="thumb">
-          <iframe src="https://www.youtube.com/embed/VIDEO_ID_24" title="24 Eylül 2025 Ana Haber" allowfullscreen></iframe>
-        </div>
-        <div class="meta">
-          <h3>24 Eylül 2025 Ana Haber</h3>
-          <time datetime="2025-09-24">24 Eylül 2025</time>
-        </div>
-      </article>
+        <!-- Video 2 -->
+        <article class="video-card">
+          <div class="video-thumb">
+            <iframe src="https://www.youtube.com/embed/S2TkPJJijq4" title="Ali Seven - Ak Meleğim" allowfullscreen></iframe>
+          </div>
+          <div class="video-meta">
+            <h3>Ali Seven - Ak Meleğim Göç Eylemiş</h3>
+            <time datetime="2025-01-28">28 Ocak 2025</time>
+          </div>
+        </article>
 
+        <!-- Video 3 -->
+        <article class="video-card">
+          <div class="video-thumb">
+            <iframe src="https://www.youtube.com/embed/mHq5-Lv-Vbo" title="Cihan Çelik ile Deli Derviş" allowfullscreen></iframe>
+          </div>
+          <div class="video-meta">
+            <h3>Cihan Çelik ile Deli Derviş</h3>
+            <time datetime="2025-01-27">27 Ocak 2025</time>
+          </div>
+        </article>
+
+        <!-- Video 4 -->
+        <article class="video-card">
+          <div class="video-thumb">
+            <iframe src="https://www.youtube.com/embed/JTsiVtNl-PU" title="Ünal Dursun - Değirmenin Bendine" allowfullscreen></iframe>
+          </div>
+          <div class="video-meta">
+            <h3>Ünal Dursun - Değirmenin Bendine</h3>
+            <time datetime="2025-01-26">26 Ocak 2025</time>
+          </div>
+        </article>
+
+        <!-- Video 5 -->
+        <article class="video-card">
+          <div class="video-thumb">
+            <iframe src="https://www.youtube.com/embed/CkC98yWX-ZQ" title="Zuhal'le Türküler" allowfullscreen></iframe>
+          </div>
+          <div class="video-meta">
+            <h3>Zuhal'le Türküler</h3>
+            <time datetime="2025-01-25">25 Ocak 2025</time>
+          </div>
+        </article>
+
+        <!-- Video 6 -->
+        <article class="video-card">
+          <div class="video-thumb">
+            <iframe src="https://www.youtube.com/embed/e3-6OD2O-G0" title="Yola Revan" allowfullscreen></iframe>
+          </div>
+          <div class="video-meta">
+            <h3>Yola Revan</h3>
+            <time datetime="2025-01-24">24 Ocak 2025</time>
+          </div>
+        </article>
+      </div>
     </section>
+  </div>
 
-    <p class="note">Arka plan rengi #30D5C8 olarak güncellendi. Her "VIDEO_ID_*" kısmını ilgili YouTube video ID'si ile değiştirin.</p>
-  </main>
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div class="footer-about">
+        <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjQwIiB2aWV3Qm94PSIwIDAgMTUwIDQwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Ik0xMCAxMFYzMEgzMFYyNkgxNFYxMEgxMFpNNDAgMTBWMzBINDZWMjZINDJWMTRINDZWMTAoNDBaTTU4IDEwVjMwSDY0VjE2SDcwVjEwSDU4Wk02NCAyNlYyMEg2OFYyNkg2NFpNODIgMTBWMzBIOThWMjZIODZWMjJIOThWMThIODZWMTRIOThWMTAoODJaTTEwNiAxMFYzMEgxMTJWMjZIMTE2VjIySDExMlYxOEgxMTZWMTRIMTEyVjEwSDEwNlpNMTI0IDEwVjMwSDEzMFYyNkgxMzRWMjJIMTMwVjE4SDEzNFYxNEgxMzBWMTBIMTI0WiIgZmlsbD0iI0UzMDYxMyIvPjxwYXRoIGQ9Ik0xMzYgMTBWMzBIMTQyVjE2SDE0OFYxMEgxMzZaIiBmaWxsPSIjRjBGMEYwIi8+PC9zdmc+" alt="Yıldız En TV" class="footer-logo">
+        <p class="footer-description">2019 yılının EN iyi ve EN çok izlenen Müzik Kanalı... Yıldız EN Tv ödüle Layık Görülmüştür... Siz varsanız bizde Varız..</p>
+        <div class="socials">
+          <a href="https://www.facebook.com/yildizentv/" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://x.com/yildizztv/" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="https://www.instagram.com/yildizentv/" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.youtube.com/@yildizentv" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+
+      <div class="footer-links">
+        <h4>Hızlı Bağlantılar</h4>
+        <ul>
+          <li><a href="#"><i class="fas fa-chevron-right"></i> Ana Sayfa</a></li>
+          <li><a href="#bolumler"><i class="fas fa-chevron-right"></i> Bölümler</a></li>
+          <li><a href="#"><i class="fas fa-chevron-right"></i> Programlar</a></li>
+          <li><a href="#"><i class="fas fa-chevron-right"></i> Canlı Yayın</a></li>
+          <li><a href="#"><i class="fas fa-chevron-right"></i> Yayın Akışı</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-contact">
+        <h4>İletişim</h4>
+        <div class="contact-info">
+          <p><i class="fas fa-map-marker-alt"></i> Saadetdere Turgut Özal Mah. 68. Sk No:28 Beylikdüzü Osb Esenyurt / İstanbul</p>
+          <p><i class="fas fa-phone"></i> 0 (212) 123 45 67</p>
+          <p><i class="fas fa-envelope"></i> info@yıldızentv.com.tr</p>
+          <p><i class="fas fa-clock"></i> 09:00 - 18:00 (Pzt-Cuma)</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="copyright">
+      &copy; 2025 Yıldız En TV. Tüm hakları saklıdır. | <a href="#" style="color: inherit;">Gizlilik Politikası</a> | <a href="#" style="color: inherit;">Kullanım Şartları</a>
+    </div>
+  </footer>
+
+  <script>
+    // Slider Functionality
+    const slides = document.getElementById('slides');
+    const dots = document.querySelectorAll('.dot');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    let currentSlide = 0;
+    const totalSlides = document.querySelectorAll('.slide').length;
+    
+    function updateSlider() {
+      slides.style.transform = `translateX(-${currentSlide * 100}%)`;
+      
+      dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentSlide);
+      });
+    }
+    
+    dots.forEach((dot, index) => {
+      dot.addEventListener('click', () => {
+        currentSlide = index;
+        updateSlider();
+      });
+    });
+    
+    prevBtn.addEventListener('click', () => {
+      currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+      updateSlider();
+    });
+    
+    nextBtn.addEventListener('click', () => {
+      currentSlide = (currentSlide + 1) % totalSlides;
+      updateSlider();
+    });
+    
+    // Auto slide
+    setInterval(() => {
+      currentSlide = (currentSlide + 1) % totalSlides;
+      updateSlider();
+    }, 5000);
+
+    // Mobile Menu Toggle
+    const menuBtn = document.querySelector('.menu-btn');
+    const nav = document.querySelector('.nav');
+    
+    menuBtn.addEventListener('click', () => {
+      nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+    });
+
+    // Close mobile menu on resize
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 900) {
+        nav.style.display = 'flex';
+      } else {
+        nav.style.display = 'none';
+      }
+    });
+  </script>
 </body>
 </html>
