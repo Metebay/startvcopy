@@ -34,6 +34,7 @@
       background: var(--bg);
       color: var(--text);
       line-height: 1.6;
+      overflow-x: hidden;
     }
 
     /* Header */
@@ -118,44 +119,28 @@
       margin: 0 auto;
     }
 
-    /* Kategori Filtreleri */
-    .category-filters {
+    /* Program Slider */
+    .programs-slider-container {
+      position: relative;
+      margin: 3rem 0;
+    }
+
+    .programs-slider {
       display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      margin-bottom: 3rem;
-      justify-content: center;
-    }
-
-    .filter-btn {
-      background: var(--bg-light);
-      border: 1px solid var(--border);
-      color: var(--text);
-      padding: 0.75rem 1.5rem;
-      border-radius: 50px;
-      cursor: pointer;
-      transition: all 0.3s;
-      font-weight: 500;
-    }
-
-    .filter-btn:hover {
-      background: var(--star-red);
-      border-color: var(--star-red);
-    }
-
-    .filter-btn.active {
-      background: var(--star-red);
-      border-color: var(--star-red);
-    }
-
-    /* Programlar Grid */
-    .programs-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      overflow-x: auto;
+      scroll-behavior: smooth;
       gap: 2rem;
+      padding: 1rem 0;
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE and Edge */
+    }
+
+    .programs-slider::-webkit-scrollbar {
+      display: none; /* Chrome, Safari and Opera */
     }
 
     .program-card {
+      flex: 0 0 300px;
       background: var(--bg-card);
       border-radius: var(--radius);
       overflow: hidden;
@@ -247,6 +232,74 @@
 
     .watch-btn:hover {
       background: var(--star-red-dark);
+    }
+
+    /* Slider Navigation */
+    .slider-nav {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .slider-btn {
+      background: var(--bg-light);
+      border: 1px solid var(--border);
+      color: var(--text);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 1.2rem;
+    }
+
+    .slider-btn:hover {
+      background: var(--star-red);
+      border-color: var(--star-red);
+    }
+
+    .slider-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .slider-btn:disabled:hover {
+      background: var(--bg-light);
+      border-color: var(--border);
+    }
+
+    /* Kategori Filtreleri */
+    .category-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 3rem;
+      justify-content: center;
+    }
+
+    .filter-btn {
+      background: var(--bg-light);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.75rem 1.5rem;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-weight: 500;
+    }
+
+    .filter-btn:hover {
+      background: var(--star-red);
+      border-color: var(--star-red);
+    }
+
+    .filter-btn.active {
+      background: var(--star-red);
+      border-color: var(--star-red);
     }
 
     /* Featured Program */
@@ -508,8 +561,8 @@
         font-size: 1.5rem;
       }
       
-      .programs-grid {
-        grid-template-columns: 1fr;
+      .program-card {
+        flex: 0 0 280px;
       }
       
       .category-filters {
@@ -592,158 +645,170 @@
       <button class="filter-btn" data-category="cocuk">Çocuk</button>
     </div>
 
-    <!-- Programlar Grid -->
-    <div class="programs-grid" id="programsGrid">
-      <!-- Program 1 -->
-      <div class="program-card" data-category="muzik">
-        <div class="program-image">
-          <img src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Ali Seven - Ak Meleğim">
-          <div class="program-category">Müzik</div>
-        </div>
-        <div class="program-content">
-          <h3 class="program-title">Ali Seven - Ak Meleğim</h3>
-          <p class="program-description">Türk halk müziğinin sevilen ismi Ali Seven'den unutulmaz türküler ve performanslar.</p>
-          <div class="program-meta">
-            <div class="program-schedule">
-              <i class="fas fa-clock"></i>
-              <span>Her Çarşamba 20:00</span>
+    <!-- Programlar Slider -->
+    <div class="programs-slider-container">
+      <div class="programs-slider" id="programsSlider">
+        <!-- Program 1 -->
+        <div class="program-card" data-category="muzik">
+          <div class="program-image">
+            <img src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Ali Seven - Ak Meleğim">
+            <div class="program-category">Müzik</div>
+          </div>
+          <div class="program-content">
+            <h3 class="program-title">Ali Seven - Ak Meleğim</h3>
+            <p class="program-description">Türk halk müziğinin sevilen ismi Ali Seven'den unutulmaz türküler ve performanslar.</p>
+            <div class="program-meta">
+              <div class="program-schedule">
+                <i class="fas fa-clock"></i>
+                <span>Her Çarşamba 20:00</span>
+              </div>
+              <button class="watch-btn">İzle</button>
             </div>
-            <button class="watch-btn">İzle</button>
+          </div>
+        </div>
+
+        <!-- Program 2 -->
+        <div class="program-card" data-category="soylesi">
+          <div class="program-image">
+            <img src="https://images.unsplash.com/photo-1551818255-e6e1095bc5c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Cihan Çelik ile Deli Derviş">
+            <div class="program-category">Söyleşi</div>
+          </div>
+          <div class="program-content">
+            <h3 class="program-title">Cihan Çelik ile Deli Derviş</h3>
+            <p class="program-description">Müzik ve mistisizmin buluştuğu, derin sohbetlerin yapıldığı özel bir program.</p>
+            <div class="program-meta">
+              <div class="program-schedule">
+                <i class="fas fa-clock"></i>
+                <span>Her Pazartesi 22:00</span>
+              </div>
+              <button class="watch-btn">İzle</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Program 3 -->
+        <div class="program-card" data-category="muzik">
+          <div class="program-image">
+            <img src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Zuhal'le Türküler">
+            <div class="program-category">Müzik</div>
+          </div>
+          <div class="program-content">
+            <h3 class="program-title">Zuhal'le Türküler</h3>
+            <p class="program-description">Zuhal Yıldız'ın sunumuyla Anadolu'nun dört bir yanından türküler ve hikayeleri.</p>
+            <div class="program-meta">
+              <div class="program-schedule">
+                <i class="fas fa-clock"></i>
+                <span>Her Cuma 19:30</span>
+              </div>
+              <button class="watch-btn">İzle</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Program 4 -->
+        <div class="program-card" data-category="haber">
+          <div class="program-image">
+            <img src="https://images.unsplash.com/photo-1585829365295-ab7cd400c167?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Güncel Haberler">
+            <div class="program-category">Haber</div>
+          </div>
+          <div class="program-content">
+            <h3 class="program-title">Güncel Haberler</h3>
+            <p class="program-description">Türkiye ve dünyadan en güncel haberler, objektif bakış açısıyla Yıldız En TV'de.</p>
+            <div class="program-meta">
+              <div class="program-schedule">
+                <i class="fas fa-clock"></i>
+                <span>Her gün 08:00, 13:00, 19:00</span>
+              </div>
+              <button class="watch-btn">İzle</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Program 5 -->
+        <div class="program-card" data-category="belgesel">
+          <div class="program-image">
+            <img src="https://images.unsplash.com/photo-1551524164-6ca88f6f0960?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Yola Revan">
+            <div class="program-category">Belgesel</div>
+          </div>
+          <div class="program-content">
+            <h3 class="program-title">Yola Revan</h3>
+            <p class="program-description">Anadolu'nun gizli kalmış köşelerini, kültürlerini ve insan hikayelerini keşfedin.</p>
+            <div class="program-meta">
+              <div class="program-schedule">
+                <i class="fas fa-clock"></i>
+                <span>Her Pazar 17:00</span>
+              </div>
+              <button class="watch-btn">İzle</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Program 6 -->
+        <div class="program-card" data-category="cocuk">
+          <div class="program-image">
+            <img src="https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Çocuk Kulübü">
+            <div class="program-category">Çocuk</div>
+          </div>
+          <div class="program-content">
+            <h3 class="program-title">Çocuk Kulübü</h3>
+            <p class="program-description">Çocuklar için eğitici ve eğlenceli içerikler, şarkılar ve oyunlar.</p>
+            <div class="program-meta">
+              <div class="program-schedule">
+                <i class="fas fa-clock"></i>
+                <span>Her Cumartesi 10:00</span>
+              </div>
+              <button class="watch-btn">İzle</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Program 7 -->
+        <div class="program-card" data-category="muzik">
+          <div class="program-image">
+            <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Ünal Dursun - Değirmenin Bendine">
+            <div class="program-category">Müzik</div>
+          </div>
+          <div class="program-content">
+            <h3 class="program-title">Ünal Dursun - Değirmenin Bendine</h3>
+            <p class="program-description">Ünal Dursun'dan unutulmaz türkü yorumları ve müzik dolu anlar.</p>
+            <div class="program-meta">
+              <div class="program-schedule">
+                <i class="fas fa-clock"></i>
+                <span>Her Perşembe 21:30</span>
+              </div>
+              <button class="watch-btn">İzle</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Program 8 -->
+        <div class="program-card" data-category="soylesi">
+          <div class="program-image">
+            <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Sanatçı Sohbetleri">
+            <div class="program-category">Söyleşi</div>
+          </div>
+          <div class="program-content">
+            <h3 class="program-title">Sanatçı Sohbetleri</h3>
+            <p class="program-description">Ünlü sanatçılarla samimi sohbetler ve müzik dolu anlar.</p>
+            <div class="program-meta">
+              <div class="program-schedule">
+                <i class="fas fa-clock"></i>
+                <span>Her Salı 20:30</span>
+              </div>
+              <button class="watch-btn">İzle</button>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Program 2 -->
-      <div class="program-card" data-category="soylesi">
-        <div class="program-image">
-          <img src="https://images.unsplash.com/photo-1551818255-e6e1095bc5c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Cihan Çelik ile Deli Derviş">
-          <div class="program-category">Söyleşi</div>
-        </div>
-        <div class="program-content">
-          <h3 class="program-title">Cihan Çelik ile Deli Derviş</h3>
-          <p class="program-description">Müzik ve mistisizmin buluştuğu, derin sohbetlerin yapıldığı özel bir program.</p>
-          <div class="program-meta">
-            <div class="program-schedule">
-              <i class="fas fa-clock"></i>
-              <span>Her Pazartesi 22:00</span>
-            </div>
-            <button class="watch-btn">İzle</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Program 3 -->
-      <div class="program-card" data-category="muzik">
-        <div class="program-image">
-          <img src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Zuhal'le Türküler">
-          <div class="program-category">Müzik</div>
-        </div>
-        <div class="program-content">
-          <h3 class="program-title">Zuhal'le Türküler</h3>
-          <p class="program-description">Zuhal Yıldız'ın sunumuyla Anadolu'nun dört bir yanından türküler ve hikayeleri.</p>
-          <div class="program-meta">
-            <div class="program-schedule">
-              <i class="fas fa-clock"></i>
-              <span>Her Cuma 19:30</span>
-            </div>
-            <button class="watch-btn">İzle</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Program 4 -->
-      <div class="program-card" data-category="haber">
-        <div class="program-image">
-          <img src="https://images.unsplash.com/photo-1585829365295-ab7cd400c167?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Güncel Haberler">
-          <div class="program-category">Haber</div>
-        </div>
-        <div class="program-content">
-          <h3 class="program-title">Güncel Haberler</h3>
-          <p class="program-description">Türkiye ve dünyadan en güncel haberler, objektif bakış açısıyla Yıldız En TV'de.</p>
-          <div class="program-meta">
-            <div class="program-schedule">
-              <i class="fas fa-clock"></i>
-              <span>Her gün 08:00, 13:00, 19:00</span>
-            </div>
-            <button class="watch-btn">İzle</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Program 5 -->
-      <div class="program-card" data-category="belgesel">
-        <div class="program-image">
-          <img src="https://images.unsplash.com/photo-1551524164-6ca88f6f0960?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Yola Revan">
-          <div class="program-category">Belgesel</div>
-        </div>
-        <div class="program-content">
-          <h3 class="program-title">Yola Revan</h3>
-          <p class="program-description">Anadolu'nun gizli kalmış köşelerini, kültürlerini ve insan hikayelerini keşfedin.</p>
-          <div class="program-meta">
-            <div class="program-schedule">
-              <i class="fas fa-clock"></i>
-              <span>Her Pazar 17:00</span>
-            </div>
-            <button class="watch-btn">İzle</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Program 6 -->
-      <div class="program-card" data-category="cocuk">
-        <div class="program-image">
-          <img src="https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Çocuk Kulübü">
-          <div class="program-category">Çocuk</div>
-        </div>
-        <div class="program-content">
-          <h3 class="program-title">Çocuk Kulübü</h3>
-          <p class="program-description">Çocuklar için eğitici ve eğlenceli içerikler, şarkılar ve oyunlar.</p>
-          <div class="program-meta">
-            <div class="program-schedule">
-              <i class="fas fa-clock"></i>
-              <span>Her Cumartesi 10:00</span>
-            </div>
-            <button class="watch-btn">İzle</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Program 7 -->
-      <div class="program-card" data-category="muzik">
-        <div class="program-image">
-          <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Ünal Dursun - Değirmenin Bendine">
-          <div class="program-category">Müzik</div>
-        </div>
-        <div class="program-content">
-          <h3 class="program-title">Ünal Dursun - Değirmenin Bendine</h3>
-          <p class="program-description">Ünal Dursun'dan unutulmaz türkü yorumları ve müzik dolu anlar.</p>
-          <div class="program-meta">
-            <div class="program-schedule">
-              <i class="fas fa-clock"></i>
-              <span>Her Perşembe 21:30</span>
-            </div>
-            <button class="watch-btn">İzle</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Program 8 -->
-      <div class="program-card" data-category="soylesi">
-        <div class="program-image">
-          <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Sanatçı Sohbetleri">
-          <div class="program-category">Söyleşi</div>
-        </div>
-        <div class="program-content">
-          <h3 class="program-title">Sanatçı Sohbetleri</h3>
-          <p class="program-description">Ünlü sanatçılarla samimi sohbetler ve müzik dolu anlar.</p>
-          <div class="program-meta">
-            <div class="program-schedule">
-              <i class="fas fa-clock"></i>
-              <span>Her Salı 20:30</span>
-            </div>
-            <button class="watch-btn">İzle</button>
-          </div>
-        </div>
+      <!-- Slider Navigation -->
+      <div class="slider-nav">
+        <button class="slider-btn" id="prevBtn">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="slider-btn" id="nextBtn">
+          <i class="fas fa-chevron-right"></i>
+        </button>
       </div>
     </div>
   </div>
@@ -790,9 +855,41 @@
   </footer>
 
   <script>
+    // Slider Functionality
+    const slider = document.getElementById('programsSlider');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const programCards = document.querySelectorAll('.program-card');
+    const cardWidth = 300 + 32; // card width + gap
+    let currentPosition = 0;
+    let maxPosition = (programCards.length - 3) * cardWidth;
+
+    function updateSliderButtons() {
+      prevBtn.disabled = currentPosition === 0;
+      nextBtn.disabled = currentPosition >= maxPosition;
+    }
+
+    function slideTo(position) {
+      slider.scrollTo({
+        left: position,
+        behavior: 'smooth'
+      });
+      currentPosition = position;
+      updateSliderButtons();
+    }
+
+    prevBtn.addEventListener('click', () => {
+      const newPosition = Math.max(0, currentPosition - cardWidth * 3);
+      slideTo(newPosition);
+    });
+
+    nextBtn.addEventListener('click', () => {
+      const newPosition = Math.min(maxPosition, currentPosition + cardWidth * 3);
+      slideTo(newPosition);
+    });
+
     // Kategori Filtreleme
     const filterBtns = document.querySelectorAll('.filter-btn');
-    const programCards = document.querySelectorAll('.program-card');
     
     filterBtns.forEach(btn => {
       btn.addEventListener('click', () => {
@@ -812,6 +909,9 @@
             card.style.display = 'none';
           }
         });
+
+        // Slider'ı başa al
+        slideTo(0);
       });
     });
 
@@ -838,6 +938,18 @@
       btn.addEventListener('click', () => {
         alert('Program izleme sayfasına yönlendiriliyorsunuz...');
         // Gerçek uygulamada burada sayfa yönlendirmesi yapılır
+      });
+    });
+
+    // Sayfa yüklendiğinde slider butonlarını güncelle
+    window.addEventListener('DOMContentLoaded', () => {
+      updateSliderButtons();
+      
+      // Ekran boyutu değiştiğinde maxPosition'ı güncelle
+      window.addEventListener('resize', () => {
+        const visibleCards = Math.floor(slider.offsetWidth / cardWidth);
+        maxPosition = (programCards.length - visibleCards) * cardWidth;
+        updateSliderButtons();
       });
     });
   </script>
