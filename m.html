@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Programlar - Yıldız En TV</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --star-red: #E30613;
+      --star-red-dark: #B8050F;
+      --bg: #0A0A0A;
+      --bg-light: #151515;
+      --bg-card: #1A1A1A;
+      --text: #FFFFFF;
+      --text-muted: #A0A0A0;
+      --border: #2A2A2A;
+      --radius: 12px;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      --header-height: 80px;
+      --container-max: 1280px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* Header */
+    .site-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      height: var(--header-height);
+      background: rgba(10, 10, 10, 0.95);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo img {
+      height: 50px;
+      filter: brightness(0) invert(1);
+    }
+
+    .nav {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: color 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .nav a:hover {
+      color: var(--star-red);
+    }
+
+    .nav a.active {
+      color: var(--star-red);
+    }
+
+    .menu-btn {
+      display: none;
+      background: transparent;
+      border: 0;
+      color: var(--text);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* Main Content */
+    .container {
+      max-width: var(--container-max);
+      margin: 0 auto;
+      padding: 4rem 2rem;
+      margin-top: var(--header-height);
+    }
+
+    .page-header {
+      margin-bottom: 3rem;
+      text-align: center;
+    }
+
+    .page-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+
+    .page-subtitle {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Kategori Filtreleri */
+    .category-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 3rem;
+      justify-content: center;
+    }
+
+    .filter-btn {
+      background: var(--bg-light);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.75rem 1.5rem;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-weight: 500;
+    }
+
+    .filter-btn:hover {
+      background: var(--star-red);
+      border-color: var(--star-red);
+    }
+
+    .filter-btn.active {
+      background: var(--star-red);
+      border-color: var(--star-red);
+    }
+
+    /* Programlar Grid */
+    .programs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .program-card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: all 0.3s;
+      border: 1px solid var(--border);
+    }
+
+    .program-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow);
+    }
+
+    .program-image {
+      position: relative;
+      aspect-ratio: 16/9;
+      overflow: hidden;
+    }
+
+    .program-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+
+    .program-card:hover .program-image img {
+      transform: scale(1.05);
+    }
+
+    .program-category {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      background: var(--star-red);
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .program-content {
+      padding: 1.5rem;
+    }
+
+    .program-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      color: var(--text);
+    }
+
+    .program-description {
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+    }
+
+    .program-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .program-schedule {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .program-schedule i {
+      color: var(--star-red);
+      margin-right: 0.5rem;
+    }
+
+    .watch-btn {
+      background: var(--star-red);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+
+    .watch-btn:hover {
+      background: var(--star-red-dark);
+    }
+
+    /* Featured Program */
+    .featured-program {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 4rem;
+      background: var(--bg-light);
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .featured-image {
+      position: relative;
+      aspect-ratio: 16/9;
+      overflow: hidden;
+    }
+
+    .featured-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .featured-badge {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      background: var(--star-red);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .featured-content {
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .featured-title {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+
+    .featured-description {
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      font-size: 1.1rem;
+      line-height: 1.7;
+    }
+
+    .featured-meta {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .meta-item i {
+      color: var(--star-red);
+    }
+
+    .featured-actions {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: var(--star-red);
+      color: #fff;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .btn:hover {
+      background: var(--star-red-dark);
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    .btn-outline:hover {
+      background: var(--bg-card);
+      border-color: var(--star-red);
+    }
+
+    /* Footer */
+    footer.site-footer {
+      background: #080808;
+      color: #b0b0b0;
+      padding: 4rem 2rem 2rem;
+      margin-top: 4rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 3rem;
+      max-width: var(--container-max);
+      margin: 0 auto;
+    }
+
+    .footer-logo {
+      height: 40px;
+      margin-bottom: 1.5rem;
+      filter: brightness(0) invert(1);
+    }
+
+    .footer-description {
+      color: #9ca3af;
+      margin-top: 1rem;
+      line-height: 1.6;
+    }
+
+    .socials {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+
+    .socials a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #222;
+      color: #fff;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+
+    .socials a:hover {
+      background: var(--star-red);
+      transform: translateY(-2px);
+    }
+
+    .footer-links h4 {
+      margin: 0 0 1.5rem;
+      font-size: 1.25rem;
+      color: #fff;
+    }
+
+    .footer-links ul {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 0.75rem;
+    }
+
+    .footer-links a {
+      color: #9ca3af;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-links a:hover {
+      color: #fff;
+    }
+
+    .footer-contact h4 {
+      margin: 0 0 1.5rem;
+      font-size: 1.25rem;
+      color: #fff;
+    }
+
+    .contact-info {
+      color: #9ca3af;
+      line-height: 1.6;
+    }
+
+    .contact-info p {
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .copyright {
+      text-align: center;
+      padding-top: 3rem;
+      margin-top: 3rem;
+      border-top: 1px solid #333;
+      color: #777;
+      max-width: var(--container-max);
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .nav {
+        display: none;
+      }
+      
+      .menu-btn {
+        display: block;
+      }
+      
+      .featured-program {
+        grid-template-columns: 1fr;
+      }
+      
+      .featured-content {
+        padding: 2rem;
+      }
+      
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .site-header {
+        padding: 0 1rem;
+      }
+      
+      .container {
+        padding: 2rem 1rem;
+      }
+      
+      .page-title {
+        font-size: 2rem;
+      }
+      
+      .featured-title {
+        font-size: 1.5rem;
+      }
+      
+      .programs-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .category-filters {
+        justify-content: flex-start;
+        overflow-x: auto;
+        padding-bottom: 0.5rem;
+      }
+      
+      .featured-actions {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="site-header">
+    <div class="logo">
+      <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjQwIiB2aWV3Qm94PSIwIDAgMTUwIDQwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Ik0xMCAxMFYzMEgzMFYyNkgxNFYxMEgxMFpNNDAgMTBWMzBINDZWMjZINDJWMTRINDZWMTAoNDBaTTU4IDEwVjMwSDY0VjE2SDcwVjEwSDU4Wk02NCAyNlYyMEg2OFYyNkg2NFpNODIgMTBWMzBIOThWMjZIODZWMjJIOThWMThIODZWMTRIOThWMTAoODJaTTEwNiAxMFYzMEgxMTJWMjZIMTE2VjIySDExMlYxOEgxMTZWMTRIMTEyVjEwSDEwNlpNMTI0IDEwVjMwSDEzMFYyNkgxMzRWMjJIMTMwVjE4SDEzNFYxNEgxMzBWMTBIMTI0WiIgZmlsbD0iI0UzMDYxMyIvPjxwYXRoIGQ9Ik0xMzYgMTBWMzBIMTQyVjE2SDE0OFYxMEgxMzZaIiBmaWxsPSIjRjBGMEYwIi8+PC9zdmc+" alt="Yıldız En TV">
+    </div>
+
+    <nav class="nav">
+      <a href="index.html"><i class="fas fa-home"></i> Ana Sayfa</a>
+      <a href="bolumler.html"><i class="fas fa-play-circle"></i> Bölümler</a>
+      <a href="programlar.html" class="active"><i class="fas fa-tv"></i> Programlar</a>
+      <a href="canli.html"><i class="fas fa-broadcast-tower"></i> Canlı</a>
+      <a href="yayin-akisi.html"><i class="fas fa-calendar-alt"></i> Yayın Akışı</a>
+      <a href="hakkimizda.html"><i class="fas fa-info-circle"></i> Hakkımızda</a>
+    </nav>
+
+    <button class="menu-btn">
+      <i class="fas fa-bars"></i>
+    </button>
+  </header>
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="page-header">
+      <h1 class="page-title">Programlar</h1>
+      <p class="page-subtitle">Yıldız En TV'nin birbirinden özel programlarını keşfedin. Türküler, söyleşiler, haberler ve daha fazlası...</p>
+    </div>
+
+    <!-- Öne Çıkan Program -->
+    <div class="featured-program">
+      <div class="featured-image">
+        <img src="https://images.unsplash.com/photo-1574267432553-4b4628081c31?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Mehmet Ekici ile Gönül Avazı">
+        <div class="featured-badge">Öne Çıkan Program</div>
+      </div>
+      <div class="featured-content">
+        <h2 class="featured-title">Mehmet Ekici ile Gönül Avazı</h2>
+        <p class="featured-description">Türkülerle dolu bir yolculuğa çıkın. Anadolu'nun dört bir yanından derlenmiş türküler ve hikayeleriyle Mehmet Ekici sizlerle.</p>
+        <div class="featured-meta">
+          <div class="meta-item">
+            <i class="fas fa-calendar"></i>
+            <span>Her Salı & Perşembe</span>
+          </div>
+          <div class="meta-item">
+            <i class="fas fa-clock"></i>
+            <span>21:00</span>
+          </div>
+          <div class="meta-item">
+            <i class="fas fa-tag"></i>
+            <span>Müzik</span>
+          </div>
+        </div>
+        <div class="featured-actions">
+          <button class="btn"><i class="fas fa-play"></i> Şimdi İzle</button>
+          <button class="btn btn-outline"><i class="fas fa-info-circle"></i> Detaylar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Kategori Filtreleri -->
+    <div class="category-filters">
+      <button class="filter-btn active" data-category="all">Tüm Programlar</button>
+      <button class="filter-btn" data-category="muzik">Müzik</button>
+      <button class="filter-btn" data-category="soylesi">Söyleşi</button>
+      <button class="filter-btn" data-category="haber">Haber</button>
+      <button class="filter-btn" data-category="belgesel">Belgesel</button>
+      <button class="filter-btn" data-category="cocuk">Çocuk</button>
+    </div>
+
+    <!-- Programlar Grid -->
+    <div class="programs-grid" id="programsGrid">
+      <!-- Program 1 -->
+      <div class="program-card" data-category="muzik">
+        <div class="program-image">
+          <img src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Ali Seven - Ak Meleğim">
+          <div class="program-category">Müzik</div>
+        </div>
+        <div class="program-content">
+          <h3 class="program-title">Ali Seven - Ak Meleğim</h3>
+          <p class="program-description">Türk halk müziğinin sevilen ismi Ali Seven'den unutulmaz türküler ve performanslar.</p>
+          <div class="program-meta">
+            <div class="program-schedule">
+              <i class="fas fa-clock"></i>
+              <span>Her Çarşamba 20:00</span>
+            </div>
+            <button class="watch-btn">İzle</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Program 2 -->
+      <div class="program-card" data-category="soylesi">
+        <div class="program-image">
+          <img src="https://images.unsplash.com/photo-1551818255-e6e1095bc5c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Cihan Çelik ile Deli Derviş">
+          <div class="program-category">Söyleşi</div>
+        </div>
+        <div class="program-content">
+          <h3 class="program-title">Cihan Çelik ile Deli Derviş</h3>
+          <p class="program-description">Müzik ve mistisizmin buluştuğu, derin sohbetlerin yapıldığı özel bir program.</p>
+          <div class="program-meta">
+            <div class="program-schedule">
+              <i class="fas fa-clock"></i>
+              <span>Her Pazartesi 22:00</span>
+            </div>
+            <button class="watch-btn">İzle</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Program 3 -->
+      <div class="program-card" data-category="muzik">
+        <div class="program-image">
+          <img src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Zuhal'le Türküler">
+          <div class="program-category">Müzik</div>
+        </div>
+        <div class="program-content">
+          <h3 class="program-title">Zuhal'le Türküler</h3>
+          <p class="program-description">Zuhal Yıldız'ın sunumuyla Anadolu'nun dört bir yanından türküler ve hikayeleri.</p>
+          <div class="program-meta">
+            <div class="program-schedule">
+              <i class="fas fa-clock"></i>
+              <span>Her Cuma 19:30</span>
+            </div>
+            <button class="watch-btn">İzle</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Program 4 -->
+      <div class="program-card" data-category="haber">
+        <div class="program-image">
+          <img src="https://images.unsplash.com/photo-1585829365295-ab7cd400c167?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Güncel Haberler">
+          <div class="program-category">Haber</div>
+        </div>
+        <div class="program-content">
+          <h3 class="program-title">Güncel Haberler</h3>
+          <p class="program-description">Türkiye ve dünyadan en güncel haberler, objektif bakış açısıyla Yıldız En TV'de.</p>
+          <div class="program-meta">
+            <div class="program-schedule">
+              <i class="fas fa-clock"></i>
+              <span>Her gün 08:00, 13:00, 19:00</span>
+            </div>
+            <button class="watch-btn">İzle</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Program 5 -->
+      <div class="program-card" data-category="belgesel">
+        <div class="program-image">
+          <img src="https://images.unsplash.com/photo-1551524164-6ca88f6f0960?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Yola Revan">
+          <div class="program-category">Belgesel</div>
+        </div>
+        <div class="program-content">
+          <h3 class="program-title">Yola Revan</h3>
+          <p class="program-description">Anadolu'nun gizli kalmış köşelerini, kültürlerini ve insan hikayelerini keşfedin.</p>
+          <div class="program-meta">
+            <div class="program-schedule">
+              <i class="fas fa-clock"></i>
+              <span>Her Pazar 17:00</span>
+            </div>
+            <button class="watch-btn">İzle</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Program 6 -->
+      <div class="program-card" data-category="cocuk">
+        <div class="program-image">
+          <img src="https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Çocuk Kulübü">
+          <div class="program-category">Çocuk</div>
+        </div>
+        <div class="program-content">
+          <h3 class="program-title">Çocuk Kulübü</h3>
+          <p class="program-description">Çocuklar için eğitici ve eğlenceli içerikler, şarkılar ve oyunlar.</p>
+          <div class="program-meta">
+            <div class="program-schedule">
+              <i class="fas fa-clock"></i>
+              <span>Her Cumartesi 10:00</span>
+            </div>
+            <button class="watch-btn">İzle</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Program 7 -->
+      <div class="program-card" data-category="muzik">
+        <div class="program-image">
+          <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Ünal Dursun - Değirmenin Bendine">
+          <div class="program-category">Müzik</div>
+        </div>
+        <div class="program-content">
+          <h3 class="program-title">Ünal Dursun - Değirmenin Bendine</h3>
+          <p class="program-description">Ünal Dursun'dan unutulmaz türkü yorumları ve müzik dolu anlar.</p>
+          <div class="program-meta">
+            <div class="program-schedule">
+              <i class="fas fa-clock"></i>
+              <span>Her Perşembe 21:30</span>
+            </div>
+            <button class="watch-btn">İzle</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Program 8 -->
+      <div class="program-card" data-category="soylesi">
+        <div class="program-image">
+          <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Sanatçı Sohbetleri">
+          <div class="program-category">Söyleşi</div>
+        </div>
+        <div class="program-content">
+          <h3 class="program-title">Sanatçı Sohbetleri</h3>
+          <p class="program-description">Ünlü sanatçılarla samimi sohbetler ve müzik dolu anlar.</p>
+          <div class="program-meta">
+            <div class="program-schedule">
+              <i class="fas fa-clock"></i>
+              <span>Her Salı 20:30</span>
+            </div>
+            <button class="watch-btn">İzle</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div class="footer-about">
+        <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjQwIiB2aWV3Qm94PSIwIDAgMTUwIDQwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Ik0xMCAxMFYzMEgzMFYyNkgxNFYxMEgxMFpNNDAgMTBWMzBINDZWMjZINDJWMTRINDZWMTAoNDBaTTU4IDEwVjMwSDY0VjE2SDcwVjEwSDU4Wk02NCAyNlYyMEg2OFYyNkg2NFpNODIgMTBWMzBIOThWMjZIODZWMjJIOThWMThIODZWMTRIOThWMTAoODJaTTEwNiAxMFYzMEgxMTJWMjZIMTE2VjIySDExMlYxOEgxMTZWMTRIMTEyVjEwSDEwNlpNMTI0IDEwVjMwSDEzMFYyNkgxMzRWMjJIMTMwVjE4SDEzNFYxNEgxMzBWMTBIMTI0WiIgZmlsbD0iI0UzMDYxMyIvPjxwYXRoIGQ9Ik0xMzYgMTBWMzBIMTQyVjE2SDE0OFYxMEgxMzZaIiBmaWxsPSIjRjBGMEYwIi8+PC9zdmc+" alt="Yıldız En TV" class="footer-logo">
+        <p class="footer-description">2019 yılının EN iyi ve EN çok izlenen Müzik Kanalı... Yıldız EN Tv ödüle Layık Görülmüştür... Siz varsanız bizde Varız..</p>
+        <div class="socials">
+          <a href="https://www.facebook.com/yildizentv/" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://x.com/yildizztv/" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="https://www.instagram.com/yildizentv/" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.youtube.com/@yildizentv" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+
+      <div class="footer-links">
+        <h4>Hızlı Bağlantılar</h4>
+        <ul>
+          <li><a href="index.html"><i class="fas fa-chevron-right"></i> Ana Sayfa</a></li>
+          <li><a href="bolumler.html"><i class="fas fa-chevron-right"></i> Bölümler</a></li>
+          <li><a href="programlar.html"><i class="fas fa-chevron-right"></i> Programlar</a></li>
+          <li><a href="canli.html"><i class="fas fa-chevron-right"></i> Canlı Yayın</a></li>
+          <li><a href="yayin-akisi.html"><i class="fas fa-chevron-right"></i> Yayın Akışı</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-contact">
+        <h4>İletişim</h4>
+        <div class="contact-info">
+          <p><i class="fas fa-map-marker-alt"></i> Saadetdere Turgut Özal Mah. 68. Sk No:28 Beylikdüzü Osb Esenyurt / İstanbul</p>
+          <p><i class="fas fa-phone"></i> 0 (212) 123 45 67</p>
+          <p><i class="fas fa-envelope"></i> info@yıldızentv.com.tr</p>
+          <p><i class="fas fa-clock"></i> 09:00 - 18:00 (Pzt-Cuma)</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="copyright">
+      &copy; 2025 Yıldız En TV. Tüm hakları saklıdır. | <a href="#" style="color: inherit;">Gizlilik Politikası</a> | <a href="#" style="color: inherit;">Kullanım Şartları</a>
+    </div>
+  </footer>
+
+  <script>
+    // Kategori Filtreleme
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const programCards = document.querySelectorAll('.program-card');
+    
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Tüm butonlardan active class'ını kaldır
+        filterBtns.forEach(b => b.classList.remove('active'));
+        
+        // Tıklanan butona active class'ını ekle
+        btn.classList.add('active');
+        
+        const category = btn.dataset.category;
+        
+        // Programları filtrele
+        programCards.forEach(card => {
+          if (category === 'all' || card.dataset.category === category) {
+            card.style.display = 'block';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    // Mobile Menu Toggle
+    const menuBtn = document.querySelector('.menu-btn');
+    const nav = document.querySelector('.nav');
+    
+    menuBtn.addEventListener('click', () => {
+      nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+    });
+
+    // Close mobile menu on resize
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 900) {
+        nav.style.display = 'flex';
+      } else {
+        nav.style.display = 'none';
+      }
+    });
+
+    // İzle butonlarına tıklama
+    const watchBtns = document.querySelectorAll('.watch-btn');
+    watchBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        alert('Program izleme sayfasına yönlendiriliyorsunuz...');
+        // Gerçek uygulamada burada sayfa yönlendirmesi yapılır
+      });
+    });
+  </script>
+</body>
+</html>
